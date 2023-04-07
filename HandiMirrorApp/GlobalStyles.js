@@ -13,8 +13,6 @@ export const FontFamily = {
     robotoMedium: "Roboto_medium",
     interExtrabold: "Inter_extrabold",
     interExtralightItalic: "Inter_extralight_italic",
-    interMedium: "Inter_medium",
-    interBold: "Inter_bold",
     materialThemeLabelSmall: "Lekton_bold",
     materialThemeBodyMedium: "Lekton_regular",
     urbanistBold: "Urbanist_bold",

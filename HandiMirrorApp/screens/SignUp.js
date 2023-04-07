@@ -28,7 +28,7 @@ const SignUp = () => {
       </Pressable>
       <Pressable
         style={styles.rectanglePressable}
-        onPress={() => navigation.navigate("Screen4")}
+        onPress={() => navigation.navigate("HomeScreen")}
       />
       <Image
         style={styles.mainCoucou031Icon}

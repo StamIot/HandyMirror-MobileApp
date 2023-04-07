@@ -12,10 +12,10 @@ const SignInScreen = () => {
       <Text style={styles.bonjour}>{`Bonjour, `}</Text>
       <View style={styles.screen2Child}>
       <Text style={styles.welcomeSentence}> Bienvenue sur HandyMirror !</Text>
-      <Text style={styles.welcomeSentence2}> Ensemble améliorons votre quotidien !</Text> 
-      <View style={styles.space}/>
+      <Text style={styles.welcomeSentence2}> Ensemble améliorons votre quotidien !</Text>
     <TextInputExample placeholder="Quel est votre prénom ?"/>
     <TextInputExample placeholder="Quel est votre nom ?"/>
+    <TextInputExample placeholder="Quel est votre adresse mail" />
     <TextInputExample placeholder="Saisissez un mot de passe"/>
     <TextInputExample placeholder="Resaisissez votre mot de passe"/>
     <Pressable
@@ -50,9 +50,6 @@ const styles = StyleSheet.create({
     },
     placeholder:{
     marginLeft: 10,
-    },
-    space: {
-        height: "10%"
     },
     screen2Child: {
     zIndex2: 2,
