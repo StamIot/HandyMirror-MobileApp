@@ -7,10 +7,13 @@ import {
   Pressable,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import { Colors } from "./src/utilities/Colors";
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import SignInScreen from "./screens/SignInScreen";
+import SignUp from "./screens/SignUp";
 
-import { Colors } from "./src/utilities/Colors"
-
-export default function App() {
+function HomeScreen({ navigation}) {
   return (
     <ImageBackground
       source={require("./src/images/homeScreen.png")}
@@ -40,7 +43,7 @@ export default function App() {
 
         <View>
           <Pressable
-            onPress={() => console.log("test")}
+            onPress={() => navigation.navigate('SignIn')}
             style={styles.button}
             android_ripple={{ color: Colors.beige, borderless: true }}
           >
@@ -49,6 +52,20 @@ export default function App() {
         </View>
       </View>
     </ImageBackground>
+  );
+}
+
+const Stack = createStackNavigator();
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="SignIn" component={SignInScreen} />
+        <Stack.Screen name="SignUp" component={SignUp} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
