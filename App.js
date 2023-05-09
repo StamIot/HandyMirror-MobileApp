@@ -12,8 +12,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import SignInScreen from "./screens/SignInScreen";
 import SignUp from "./screens/SignUp";
+import HomeScreen from "./screens/Home";
 
-function HomeScreen({ navigation}) {
+function OpeningScreen({ navigation}) {
   return (
     <ImageBackground
       source={require("./src/images/homeScreen.png")}
@@ -61,9 +62,10 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="OpeningScreen" component={OpeningScreen} />
         <Stack.Screen name="SignIn" component={SignInScreen} />
         <Stack.Screen name="SignUp" component={SignUp} />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
