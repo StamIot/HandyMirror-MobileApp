@@ -1,164 +1,144 @@
-// Dépendances
+import * as React from 'react'
 import { StyleSheet, View, Text, Pressable, Image } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-
-// Styles
-import { Color, FontFamily, FontSize } from '../GlobalStyles'
-
-// Composants Créer
+import { Color, Border, FontSize, FontFamily } from '../GlobalStyles'
 import TextInputExample from '../Component/TextInput'
 
-const SignInScreen = () => {
+const SignUpScreen = () => {
     const navigation = useNavigation()
 
     return (
-        <>
-            {/* SCREEN N°3 */}
-            <View style={styles.screen3}>
-                {/* CERCLES */}
-                <View style={styles.circlesContainer}>
-                    <View style={[styles.circle, styles.circleOne]}></View>
-                    <View style={[styles.circle, styles.circleTwo]}></View>
-                </View>
-
-                {/* MESSAGE : Ravi de vous revoir */}
-                <View style={styles.messageContainer}>
-                    <Text
-                        style={styles.message}
-                    >{`Ravi de vous revoir, `}</Text>
-                </View>
-
-                {/* Icone / Email / Password / Button */}
-                <View style={styles.formContainer}>
-                    <Image
-                        resizeMode="cover"
-                        source={require('../assets/maincoucou03-1.png')}
-                    />
-                    <View style={styles.inputContainer}>
-                        <TextInputExample
-                            placeholder={'Entrez votre adresse mail'}
-                        />
-                        <TextInputExample
-                            placeholder={'Entrez votre mot de passe'}
-                        />
-                    </View>
+        <View style={styles.background}>
+            <Text style={styles.bonjour}>{`Bonjour, `}</Text>
+            <View style={styles.screen2Child}>
+                <Text style={styles.welcomeSentence}>
+                    Bienvenue sur HandyMirror !
+                </Text>
+                <Text style={styles.welcomeSentence2}>
+                    Ensemble améliorons votre quotidien !
+                </Text>
+                <View style={styles.containerForm}>
+                    <TextInputExample placeholder="Quel est votre prénom ?" />
+                    <TextInputExample placeholder="Quel est votre nom ?" />
+                    <TextInputExample placeholder="Quel est votre adresse mail" />
+                    <TextInputExample placeholder="Saisissez un mot de passe" />
+                    <TextInputExample placeholder="Resaisissez votre mot de passe" />
                     <Pressable
-                        style={styles.btnLogin}
-                        onPress={() => navigation.navigate('HomeScreen')}
+                        style={styles.registerButton}
+                        onPress={() => navigation.navigate('CustomizeScreen')}
                     >
-                        <Text style={styles.btnLoginColor}>Se connecter</Text>
+                        <Text
+                            style={[
+                                styles.senregistrer1,
+                                styles.seConnecterTypo,
+                            ]}
+                        >
+                            Senregistrer
+                        </Text>
                     </Pressable>
                 </View>
 
-                {/* Pas de compte s'enregistrer */}
-                <View style={styles.notAccountContainer}>
-                    <Pressable
-                        style={styles.vousNavezPasContainer}
-                        onPress={() => navigation.navigate('SignIn')}
-                    >
-                        <View style={styles.textContainer}>
-                            <View style={styles.textDarkContainer}>
-                                <Text style={styles.textDark}>
-                                    Vous n’avez pas de compte ?
-                                </Text>
-                            </View>
-                            <View style={styles.textWhiteContainer}>
-                                <Text style={styles.textWhite}>
-                                    S’enregistrer
-                                </Text>
-                            </View>
-                        </View>
-                    </Pressable>
-                </View>
+                <Pressable
+                    style={styles.ToSignUpContainer}
+                    onPress={() => navigation.navigate('SignInScreen')}
+                >
+                    <Text>
+                        <Text
+                            style={styles.FirstPart}
+                        >{`On se connait déjà ? `}</Text>
+                        <Text style={styles.crimson}>Se connecter</Text>
+                    </Text>
+                </Pressable>
             </View>
-        </>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
-    screen3: {
-        flex: 1,
+    background: {
         backgroundColor: Color.dimgray,
+        flex: 1,
     },
-    circlesContainer: {
-        flex: 0.1,
-    },
-    circle: {
-        opacity: 0.8,
-        width: 75,
-        height: 75,
-        backgroundColor: Color.antiquewhite,
-        borderRadius: 50,
-    },
-    circleOne: {
-        position: 'absolute',
-        top: -10,
-        left: 0,
-    },
-    circleTwo: {
-        position: 'absolute',
-        top: '35%',
-        left: -35,
-    },
-    messageContainer: {
-        flex: 0.1,
-    },
-    message: {
-        textAlign: 'center',
-        fontFamily: FontFamily.urbanistRegular,
-        fontSize: FontSize.size_21xl,
-        color: Color.antiquewhite,
-        paddingTop: 20,
-    },
-    formContainer: {
-        flex: 0.6,
-        backgroundColor: Color.cadetblue_100,
-        marginRight: 30,
-        marginLeft: 30,
-        padding: 20,
-        borderRadius: 5,
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
-    },
-    inputContainer: {
-        width: '100%',
-        marginBottom: 25,
-    },
-    btnLogin: {
-        backgroundColor: Color.antiquewhite,
-        width: '50%',
-        padding: 12,
-        borderRadius: 12,
-    },
-    btnLoginColor: {
-        color: Color.dimgray,
-        fontWeight: '700',
-        textAlign: 'center',
-    },
-    notAccountContainer: {
-        flex: 0.2,
+    containerForm: {
         justifyContent: 'center',
-        flexWrap: 'nowrap',
-        alignItems: 'center',
-    },
-    textDark: {
-        fontSize: 16,
-        color: '#000',
-    },
-    textWhite: {
-        fontSize: 16,
-        color: Color.antiquewhite,
-    },
-    textContainer: {
         width: '100%',
-        flexDirection: 'row',
+        paddingBottom: 25,
+        paddingLeft: 25,
+        paddingRight: 25,
     },
-    textDarkContainer: {
-        paddingRight: 15,
+    bonjour: {
+        zIndex: 1,
+        top: 40,
+        left: 20,
+        fontSize: 95,
+        color: Color.antiquewhite,
+        textShadowColor: 'rgba(0, 0, 0, 0.25)',
+        textShadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        textShadowRadius: 4,
+        fontFamily: FontFamily.urbanistRegular,
+        position: 'absolute',
     },
-    textWhiteContainer: {
-        paddingLeft: 15,
+    screen2Child: {
+        zIndex2: 2,
+        top: 150,
+        left: 20,
+        borderRadius: Border.br_3xs,
+        backgroundColor: Color.cadetblue_100,
+        width: '90%',
+        position: 'absolute',
+    },
+    welcomeSentence: {
+        color: Color.antiquewhite,
+        textAlign: 'center',
+        marginTop: '10%',
+        fontSize: FontSize.size_xl,
+    },
+    welcomeSentence2: {
+        color: Color.antiquewhite,
+        textAlign: 'center',
+        marginBottom: '5%',
+        fontSize: FontSize.size_xl,
+    },
+    registerButton: {
+        borderRadius: Border.br_xl,
+        backgroundColor: Color.lightgray,
+        color: Color.dimgray,
+        marginTop: '5%',
+        width: '100%',
+        height: 53,
+    },
+    FirstPart: {
+        color: Color.gray_500,
+        fontFamily: FontFamily.interMedium,
+        fontWeight: '500',
+    },
+    SecondPart: {
+        color: Color.gray_800,
+    },
+    seConnecterTypo: {
+        fontFamily: FontFamily.interBold,
+        fontWeight: '700',
+    },
+    senregistrer1: {
+        fontSize: FontSize.titlePoppinsMedium_size,
+        color: Color.dimgray,
+        marginTop: '6%',
+        textAlign: 'center',
+        fontWeight: '700',
+    },
+    text: {
+        width: '100%',
+        height: 22,
+        fontSize: FontSize.bodyMedium_size,
+    },
+    ToSignUpContainer: {
+        bottom: '-8%',
+        left: '22%',
+        position: 'absolute',
     },
 })
 
-export default SignInScreen
+export default SignUpScreen

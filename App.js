@@ -45,7 +45,7 @@ function OpeningScreen({ navigation }) {
 
                 <View>
                     <Pressable
-                        onPress={() => navigation.navigate('SignInScreen')}
+                        onPress={() => navigation.navigate('SignUpScreen')}
                         style={styles.button}
                         android_ripple={{
                             color: Colors.beige,
@@ -67,8 +67,8 @@ export default function App() {
         <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false }}>
                 <Stack.Screen name="OpeningScreen" component={OpeningScreen} />
-                <Stack.Screen name="SignInScreen" component={SignInScreen} />
                 <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+                <Stack.Screen name="SignInScreen" component={SignInScreen} />
                 <Stack.Screen name="HomeScreen" component={HomeScreen} />
                 <Stack.Screen
                     name="CustomizeScreen"
