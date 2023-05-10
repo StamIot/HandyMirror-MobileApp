@@ -23,27 +23,30 @@ const SignInScreen = () => {
                     <TextInputExample placeholder="Quel est votre adresse mail" />
                     <TextInputExample placeholder="Saisissez un mot de passe" />
                     <TextInputExample placeholder="Resaisissez votre mot de passe" />
+                    <Pressable
+                        style={styles.registerButton}
+                        onPress={() => navigation.navigate('CustomizeScreen')}
+                    >
+                        <Text
+                            style={[
+                                styles.senregistrer1,
+                                styles.seConnecterTypo,
+                            ]}
+                        >
+                            Senregistrer
+                        </Text>
+                    </Pressable>
                 </View>
-                <Pressable
-                    style={styles.registerButton}
-                    onPress={() => navigation.navigate('AppMirror')}
-                >
-                    <Text
-                        style={[styles.senregistrer1, styles.seConnecterTypo]}
-                    
-                        Senregistrer>
-                    </Text>
-                </Pressable>
 
                 <Pressable
                     style={styles.ToSignUpContainer}
-                    onPress={() => navigation.navigate('SignUp')}
+                    onPress={() => navigation.navigate('SignUpScreen')}
                 >
                     <Text>
                         <Text
                             style={styles.FirstPart}
                         >{`On se connait déjà ? `}</Text>
-                        <Text style={[styles.crimson]}>Se connecter</Text> 
+                        <Text style={styles.crimson}>Se connecter</Text>
                     </Text>
                 </Pressable>
             </View>
@@ -55,9 +58,6 @@ const styles = StyleSheet.create({
     background: {
         backgroundColor: Color.dimgray,
         flex: 1,
-        // width: '100%',
-        // height: 926,
-        // overflow: 'hidden',
     },
     containerForm: {
         justifyContent: 'center',
@@ -102,17 +102,12 @@ const styles = StyleSheet.create({
         marginBottom: '5%',
         fontSize: FontSize.size_xl,
     },
-    // middlebackground: {
-    //     backgroundColor: Color.lightGray10,
-    //     height: 60,
-    // },
     registerButton: {
-        position: 'absolute',
-        bottom: '-16%',
-        left: '15%',
         borderRadius: Border.br_xl,
         backgroundColor: Color.lightgray,
-        width: 243,
+        color: Color.dimgray,
+        marginTop: '5%',
+        width: '100%',
         height: 53,
     },
     FirstPart: {
@@ -140,7 +135,7 @@ const styles = StyleSheet.create({
         fontSize: FontSize.bodyMedium_size,
     },
     ToSignUpContainer: {
-        bottom: '-23%',
+        bottom: '-8%',
         left: '22%',
         position: 'absolute',
     },
