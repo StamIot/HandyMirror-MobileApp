@@ -8,7 +8,7 @@ import { Color, FontFamily, FontSize } from '../GlobalStyles'
 // Composants Créer
 import TextInputExample from '../Component/TextInput'
 
-const SignUp = () => {
+const HomeSignUp = () => {
     const navigation = useNavigation()
 
     return (
@@ -161,4 +161,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default SignUp
+export default HomeSignUp

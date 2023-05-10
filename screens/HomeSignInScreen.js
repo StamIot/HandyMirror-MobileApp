@@ -30,8 +30,8 @@ const SignInScreen = () => {
                 >
                     <Text
                         style={[styles.senregistrer1, styles.seConnecterTypo]}
-                    >
-                        S'enregistrer
+                    
+                        Senregistrer>
                     </Text>
                 </Pressable>
 
@@ -43,7 +43,7 @@ const SignInScreen = () => {
                         <Text
                             style={styles.FirstPart}
                         >{`On se connait déjà ? `}</Text>
-                        <Text style={[styles.crimson]}>Se connecter</Text>
+                        <Text style={[styles.crimson]}>Se connecter</Text> 
                     </Text>
                 </Pressable>
             </View>
@@ -146,4 +146,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default SignInScreen
+export default HomeSignInScreen
