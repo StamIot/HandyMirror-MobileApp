@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native'
 import { Color, Border, FontSize, FontFamily } from '../GlobalStyles'
 import TextInputExample from '../Component/TextInput'
 
-const SignInScreen = () => {
+const SignUpScreen = () => {
     const navigation = useNavigation()
 
     return (
@@ -141,4 +141,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default SignInScreen
+export default SignUpScreen
