@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native'
 import { Color, Border, FontSize, FontFamily } from '../GlobalStyles'
 import TextInputExample from '../Component/TextInput'
 
-const SignInScreen = () => {
+const HomeSignInScreen = () => {
     const navigation = useNavigation()
 
     return (
