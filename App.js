@@ -10,8 +10,8 @@ import { AntDesign } from "@expo/vector-icons";
 import { Colors } from "./src/utilities/Colors";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import SignInScreen from "./screens/SignInScreen";
-import SignUp from "./screens/SignUp";
+import HomeSignInScreen from "./screens/SignInScreen";
+import HomeSignUp from "./screens/SignUp";
 import HomeScreen from "./screens/Home";
 
 function OpeningScreen({ navigation}) {
@@ -63,8 +63,8 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="OpeningScreen" component={OpeningScreen} />
-        <Stack.Screen name="SignIn" component={SignInScreen} />
-        <Stack.Screen name="SignUp" component={SignUp} />
+        <Stack.Screen name="SignIn" component={HomeSignInScreen} />
+        <Stack.Screen name="SignUp" component={HomeSignUp} />
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
