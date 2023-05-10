@@ -13,6 +13,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import SignInScreen from './screens/SignInScreen'
 import SignUpScreen from './screens/SignUpScreen'
 import HomeScreen from './screens/HomeScreen'
+import CustomizeScreen from './screens/CustomizeScreen'
 
 function OpeningScreen({ navigation }) {
     return (
@@ -69,6 +70,10 @@ export default function App() {
                 <Stack.Screen name="SignInScreen" component={SignInScreen} />
                 <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
                 <Stack.Screen name="HomeScreen" component={HomeScreen} />
+                <Stack.Screen
+                    name="CustomizeScreen"
+                    component={CustomizeScreen}
+                />
             </Stack.Navigator>
         </NavigationContainer>
     )
