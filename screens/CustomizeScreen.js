@@ -8,7 +8,7 @@ import { Color, FontFamily, FontSize } from '../GlobalStyles'
 // Composants Créer
 import TextInputExample from '../Component/TextInput'
 
-const HomeSignUp = () => {
+const CustomizeScreen = () => {
     const navigation = useNavigation()
 
     return (
@@ -23,49 +23,18 @@ const HomeSignUp = () => {
 
                 {/* MESSAGE : Ravi de vous revoir */}
                 <View style={styles.messageContainer}>
-                    <Text
-                        style={styles.message}
-                    >{`Ravi de vous revoir, `}</Text>
-                </View>
-
-                {/* Icone / Email / Password / Button */}
-                <View style={styles.formContainer}>
-                    <Image
-                        resizeMode="cover"
-                        source={require('../assets/maincoucou03-1.png')}
-                    />
-                    <View style={styles.inputContainer}>
-                        <TextInputExample
-                            placeholder={'Entrez votre adresse mail'}
-                        />
-                        <TextInputExample
-                            placeholder={'Entrez votre mot de passe'}
-                        />
-                    </View>
-                    <Pressable
-                        style={styles.btnLogin}
-                        onPress={() => navigation.navigate('HomeScreen')}
-                    >
-                        <Text style={styles.btnLoginColor}>Se connecter</Text>
-                    </Pressable>
+                    <Text style={styles.message}>{`Hi Sophie, `}</Text>
                 </View>
 
                 {/* Pas de compte s'enregistrer */}
                 <View style={styles.notAccountContainer}>
                     <Pressable
                         style={styles.vousNavezPasContainer}
-                        onPress={() => navigation.navigate('SignIn')}
+                        onPress={() => navigation.navigate('SettingsScreen')}
                     >
                         <View style={styles.textContainer}>
-                            <View style={styles.textDarkContainer}>
-                                <Text style={styles.textDark}>
-                                    Vous n’avez pas de compte ?
-                                </Text>
-                            </View>
                             <View style={styles.textWhiteContainer}>
-                                <Text style={styles.textWhite}>
-                                    S’enregistrer
-                                </Text>
+                                <Text style={styles.textWhite}>Settings</Text>
                             </View>
                         </View>
                     </Pressable>
@@ -161,4 +130,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default HomeSignUp
+export default CustomizeScreen
