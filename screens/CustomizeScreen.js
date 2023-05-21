@@ -9,6 +9,7 @@ import {
     Switch,
 } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
+import { Ionicons, FontAwesome } from '@expo/vector-icons'
 import { useState } from 'react'
 
 // Styles
@@ -83,6 +84,18 @@ const CustomizeScreen = () => {
                         source={require('../assets/Default_UserProfilePicture1.png')}
                     />
                     <Text style={styles.message}>{`Hi Pseudo, `}</Text>
+                    <Pressable
+                        style={styles.goEditProfil}
+                        onPress={() => navigation.navigate('EditProfileScreen')}
+                    >
+                        <View style={styles.iconContainer}>
+                            <FontAwesome
+                                name="user-circle-o"
+                                size={24}
+                                color={Color.dimgray}
+                            />
+                        </View>
+                    </Pressable>
                 </View>
 
                 {/* Un message */}
@@ -120,16 +133,25 @@ const CustomizeScreen = () => {
                 </View>
 
                 {/* Pas de compte s'enregistrer */}
-                <View style={styles.notAccountContainer}>
+                <View style={styles.optionsContainer}>
                     <Pressable
-                        style={styles.vousNavezPasContainer}
+                        style={styles.goSettings}
                         onPress={() => navigation.navigate('SettingsScreen')}
                     >
-                        <View style={styles.textContainer}>
-                            <View style={styles.textWhiteContainer}>
-                                <Text style={styles.textWhite}>Settings</Text>
-                            </View>
+                        <View style={styles.iconContainer}>
+                            <Ionicons
+                                name="settings-outline"
+                                size={24}
+                                color="black"
+                            />
                         </View>
+                    </Pressable>
+
+                    <Pressable
+                        style={styles.btnLogin}
+                        onPress={() => navigation.navigate('AddModuleScreen')}
+                    >
+                        <Text style={styles.btnLoginColor}>Voir plus</Text>
                     </Pressable>
                 </View>
             </View>
@@ -180,6 +202,11 @@ const styles = StyleSheet.create({
         color: Color.antiquewhite,
         paddingTop: 20,
     },
+    goEditProfil: {
+        position: 'absolute',
+        right: 20,
+        top: -15,
+    },
     textWhiteContainer: {
         flex: 0.1,
     },
@@ -190,7 +217,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     list: {
-        flex: 0.6,
+        flex: 0.7,
         padding: 15,
     },
     listItem: {
@@ -208,19 +235,19 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: Color.dimgray,
     },
-    formContainer: {
-        flex: 0.6,
-        backgroundColor: Color.cadetblue_100,
-        marginRight: 30,
-        marginLeft: 30,
-        padding: 20,
-        borderRadius: 5,
-        justifyContent: 'space-evenly',
+    optionsContainer: {
+        flex: 0.1,
         alignItems: 'center',
     },
-    inputContainer: {
-        width: '100%',
-        marginBottom: 25,
+    iconContainer: {
+        backgroundColor: Color.gray_600,
+        padding: 5,
+        borderRadius: 50,
+    },
+    goSettings: {
+        position: 'absolute',
+        right: 20,
+        bottom: 15,
     },
     btnLogin: {
         backgroundColor: Color.antiquewhite,
@@ -232,27 +259,7 @@ const styles = StyleSheet.create({
         color: Color.dimgray,
         fontWeight: '700',
         textAlign: 'center',
-    },
-    notAccountContainer: {
-        flex: 0.2,
-        justifyContent: 'center',
-        flexWrap: 'nowrap',
-        alignItems: 'center',
-    },
-    textDark: {
-        fontSize: 16,
-        color: '#000',
-    },
-    textWhite: {
-        fontSize: 16,
-        color: Color.antiquewhite,
-    },
-    textContainer: {
-        width: '100%',
-        flexDirection: 'row',
-    },
-    textDarkContainer: {
-        paddingRight: 15,
+        fontSize: 18,
     },
 })
 
