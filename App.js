@@ -14,6 +14,7 @@ import SignInScreen from './screens/SignInScreen'
 import SignUpScreen from './screens/SignUpScreen'
 import HomeScreen from './screens/HomeScreen'
 import CustomizeScreen from './screens/CustomizeScreen'
+import SettingsScreen from './screens/SettingsScreen'
 
 function OpeningScreen({ navigation }) {
     return (
@@ -73,6 +74,10 @@ export default function App() {
                 <Stack.Screen
                     name="CustomizeScreen"
                     component={CustomizeScreen}
+                />
+                <Stack.Screen
+                    name="SettingsScreen"
+                    component={SettingsScreen}
                 />
             </Stack.Navigator>
         </NavigationContainer>
