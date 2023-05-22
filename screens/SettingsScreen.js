@@ -13,7 +13,7 @@ import { useState } from 'react'
 // Styles
 import { Color, FontFamily } from '../GlobalStyles'
 
-const CustomizeScreen = () => {
+const settingsScreen = () => {
     const navigation = useNavigation()
     const [onNotification, setOnNotification] = useState(false)
     const [lightMode, setLightMode] = useState(true)
@@ -278,4 +278,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default CustomizeScreen
+export default settingsScreen
