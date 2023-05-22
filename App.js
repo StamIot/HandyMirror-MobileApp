@@ -16,6 +16,7 @@ import HomeScreen from './screens/HomeScreen'
 import CustomizeScreen from './screens/CustomizeScreen'
 import SettingsScreen from './screens/SettingsScreen'
 import EditProfileScreen from './screens/EditProfileScreen'
+import ContactScreen from './screens/ContactScreen'
 
 function OpeningScreen({ navigation }) {
     return (
@@ -84,6 +85,7 @@ export default function App() {
                     name="EditProfileScreen"
                     component={EditProfileScreen}
                 />
+                <Stack.Screen name="ContactScreen" component={ContactScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )

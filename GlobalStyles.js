@@ -1,24 +1,24 @@
 /* fonts */
 export const FontFamily = {
-    urbanistMedium: "Urbanist_medium",
-    urbanistExtrabold: "Urbanist_extrabold",
-    urbanistRegular: "Urbanist_regular",
-    jostBold: "Jost_bold",
-    jostLight: "Jost_light",
-    jostLightItalic: "Jost_light_italic",
-    jostRegular: "Jost_regular",
-    titlePoppinsMedium: "Poppins_semibold",
-    bodyMedium: "Roboto_regular",
-    urbanistSemibold: "Urbanist_semibold",
-    robotoMedium: "Roboto_medium",
-    interExtrabold: "Inter_extrabold",
-    interExtralightItalic: "Inter_extralight_italic",
-    materialThemeLabelSmall: "Lekton_bold",
-    materialThemeBodyMedium: "Lekton_regular",
-    urbanistBold: "Urbanist_bold",
-  };
-  /* font sizes */
-  export const FontSize = {
+    urbanistMedium: 'Urbanist_medium',
+    urbanistExtrabold: 'Urbanist_extrabold',
+    urbanistRegular: 'Urbanist_regular',
+    jostBold: 'Jost_bold',
+    jostLight: 'Jost_light',
+    jostLightItalic: 'Jost_light_italic',
+    jostRegular: 'Jost_regular',
+    titlePoppinsMedium: 'Poppins_semibold',
+    bodyMedium: 'Roboto_regular',
+    urbanistSemibold: 'Urbanist_semibold',
+    robotoMedium: 'Roboto_medium',
+    interExtrabold: 'Inter_extrabold',
+    interExtralightItalic: 'Inter_extralight_italic',
+    materialThemeLabelSmall: 'Lekton_bold',
+    materialThemeBodyMedium: 'Lekton_regular',
+    urbanistBold: 'Urbanist_bold',
+}
+/* font sizes */
+export const FontSize = {
     size_mini: 15,
     size_21xl: 40,
     size_xl: 18,
@@ -30,41 +30,42 @@ export const FontFamily = {
     materialThemeLabelMedium_size: 12,
     size_lgi: 19,
     size_smi: 13,
-  };
-  /* Colors */
-  export const Color = {
-    dimgray: "#5f7161",
-    antiquewhite: "#efead8",
-    cadetblue_100: "#6d8b74",
-    gray_100: "#827d7d",
-    materialThemeSysLightOutline: "#6f7975",
-    lightGray7: "#757575",
-    lightGray10: "#212121",
-    materialThemeSysLightOnSurface: "#1d1d00",
-    gray_200: "#101010",
-    gray_300: "rgba(0, 0, 0, 0.79)",
-    m3StateLayersLightOnSurfaceOpacity012: "rgba(28, 27, 31, 0.12)",
-    gray_400: "rgba(0, 0, 0, 0.2)",
-    gray_500: "rgba(0, 0, 0, 0.5)",
-    gray_600: "rgba(255, 255, 255, 0.5)",
-    gray_700: "rgba(255, 255, 255, 0.45)",
-    gray_800: "rgba(0, 0, 0, 0.54)",
-    lightGray0: "#fff",
-    lightGray11: "#000",
-    lightgray: "#d0c9c0",
-    lightPrimary: "#1573fe",
-    lightPrimary5: "#f3f8ff",
-    materialThemeSysLightSecondaryContainer: "#cee9dd",
-    m3StateLayersLightPrimaryOpacity012: "rgba(103, 80, 164, 0.12)",
-    materialThemeSysLightOnSurfaceVariant: "#3f4945",
-    materialThemeSysLightSurfaceVariant: "#dbe5df",
-    gainsboro_100: "#d9d9d9",
-    snow_100: "#fffcfc",
-    materialThemeSysLightSurface: "#fffbff",
-    crimson: "#d62d2d",
-  };
-  /* Paddings */
-  export const Padding = {
+}
+/* Colors */
+export const Color = {
+    dimgrayLigth: '#b4c4b8',
+    dimgray: '#5f7161',
+    antiquewhite: '#efead8',
+    cadetblue_100: '#6d8b74',
+    gray_100: '#827d7d',
+    materialThemeSysLightOutline: '#6f7975',
+    lightGray7: '#757575',
+    lightGray10: '#212121',
+    materialThemeSysLightOnSurface: '#1d1d00',
+    gray_200: '#101010',
+    gray_300: 'rgba(0, 0, 0, 0.79)',
+    m3StateLayersLightOnSurfaceOpacity012: 'rgba(28, 27, 31, 0.12)',
+    gray_400: 'rgba(0, 0, 0, 0.2)',
+    gray_500: 'rgba(0, 0, 0, 0.5)',
+    gray_600: 'rgba(255, 255, 255, 0.5)',
+    gray_700: 'rgba(255, 255, 255, 0.45)',
+    gray_800: 'rgba(0, 0, 0, 0.54)',
+    lightGray0: '#fff',
+    lightGray11: '#000',
+    lightgray: '#d0c9c0',
+    lightPrimary: '#1573fe',
+    lightPrimary5: '#f3f8ff',
+    materialThemeSysLightSecondaryContainer: '#cee9dd',
+    m3StateLayersLightPrimaryOpacity012: 'rgba(103, 80, 164, 0.12)',
+    materialThemeSysLightOnSurfaceVariant: '#3f4945',
+    materialThemeSysLightSurfaceVariant: '#dbe5df',
+    gainsboro_100: '#d9d9d9',
+    snow_100: '#fffcfc',
+    materialThemeSysLightSurface: '#fffbff',
+    crimson: '#d62d2d',
+}
+/* Paddings */
+export const Padding = {
     p_base: 16,
     p_smi_5: 13,
     p_9xs: 4,
@@ -72,9 +73,9 @@ export const FontFamily = {
     p_12xs: 1,
     p_5xs: 8,
     p_5xl: 24,
-  };
-  /* border radiuses */
-  export const Border = {
+}
+/* border radiuses */
+export const Border = {
     br_31xl: 50,
     br_3xs: 10,
     br_2xs: 11,
@@ -86,5 +87,4 @@ export const FontFamily = {
     br_4xl: 23,
     br_6xs: 7,
     br_8xs: 5,
-  };
-  
+}
