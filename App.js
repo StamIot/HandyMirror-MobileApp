@@ -17,6 +17,7 @@ import CustomizeScreen from './screens/CustomizeScreen'
 import SettingsScreen from './screens/SettingsScreen'
 import EditProfileScreen from './screens/EditProfileScreen'
 import ContactScreen from './screens/ContactScreen'
+import FaceIDScreen from './screens/FaceIDScreen'
 
 function OpeningScreen({ navigation }) {
     return (
@@ -86,6 +87,7 @@ export default function App() {
                     component={EditProfileScreen}
                 />
                 <Stack.Screen name="ContactScreen" component={ContactScreen} />
+                <Stack.Screen name="FaceIDScreen" component={FaceIDScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )
