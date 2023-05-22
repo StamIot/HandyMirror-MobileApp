@@ -33,6 +33,7 @@ export const FontSize = {
 }
 /* Colors */
 export const Color = {
+    black: '#000',
     dimgrayLigth: '#b4c4b8',
     dimgray: '#5f7161',
     antiquewhite: '#efead8',
