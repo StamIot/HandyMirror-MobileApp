@@ -28,8 +28,8 @@ const EditProfileScreen = () => {
 
     return (
         <>
-            {/* SCREEN N°6 */}
-            <View style={styles.screen6}>
+            {/* SCREEN N°8 */}
+            <View style={styles.screen8}>
                 {/* CERCLES */}
                 <View style={styles.circlesContainer}>
                     <View style={[styles.circle, styles.circleOne]}></View>
@@ -245,7 +245,7 @@ const EditProfileScreen = () => {
 }
 
 const styles = StyleSheet.create({
-    screen6: {
+    screen8: {
         flex: 1,
         backgroundColor: Color.dimgray,
     },
