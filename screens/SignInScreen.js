@@ -1,15 +1,15 @@
 // Dépendances
-import { StyleSheet, View, Text, Pressable, Image } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
+import { StyleSheet, View, Text, Pressable, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 // Styles
-import { Color, FontFamily, FontSize } from '../GlobalStyles'
+import { Color, FontFamily, FontSize } from '../GlobalStyles';
 
 // Composants Créer
-import TextInputExample from '../Component/TextInput'
+import TextInputExample from '../Component/TextInputExample';
 
 const SignInScreen = () => {
-    const navigation = useNavigation()
+    const navigation = useNavigation();
 
     return (
         <>
@@ -23,57 +23,38 @@ const SignInScreen = () => {
 
                 {/* MESSAGE : Ravi de vous revoir */}
                 <View style={styles.messageContainer}>
-                    <Text
-                        style={styles.message}
-                    >{`Ravi de vous revoir, `}</Text>
+                    <Text style={styles.message}>{`Ravi de vous revoir, `}</Text>
                 </View>
 
                 {/* Icone / Email / Password / Button */}
                 <View style={styles.formContainer}>
-                    <Image
-                        resizeMode="cover"
-                        source={require('../assets/maincoucou03-1.png')}
-                    />
+                    <Image resizeMode="cover" source={require('../assets/maincoucou03-1.png')} />
                     <View style={styles.inputContainer}>
-                        <TextInputExample
-                            placeholder={'Entrez votre adresse mail'}
-                        />
-                        <TextInputExample
-                            placeholder={'Entrez votre mot de passe'}
-                        />
+                        <TextInputExample placeholder={'Entrez votre adresse mail'} />
+                        <TextInputExample placeholder={'Entrez votre mot de passe'} />
                     </View>
-                    <Pressable
-                        style={styles.btnLogin}
-                        onPress={() => navigation.navigate('CustomizeScreen')}
-                    >
+                    <Pressable style={styles.btnLogin} onPress={() => navigation.navigate('CustomizeScreen')}>
                         <Text style={styles.btnLoginColor}>Se connecter</Text>
                     </Pressable>
                 </View>
 
                 {/* Pas de compte s'enregistrer */}
                 <View style={styles.notAccountContainer}>
-                    <Pressable
-                        style={styles.vousNavezPasContainer}
-                        onPress={() => navigation.navigate('SignUpScreen')}
-                    >
+                    <Pressable style={styles.vousNavezPasContainer} onPress={() => navigation.navigate('SignUpScreen')}>
                         <View style={styles.textContainer}>
                             <View style={styles.textDarkContainer}>
-                                <Text style={styles.textDark}>
-                                    Vous n’avez pas de compte ?
-                                </Text>
+                                <Text style={styles.textDark}>Vous n’avez pas de compte ?</Text>
                             </View>
                             <View style={styles.textWhiteContainer}>
-                                <Text style={styles.textWhite}>
-                                    S’enregistrer
-                                </Text>
+                                <Text style={styles.textWhite}>S’enregistrer</Text>
                             </View>
                         </View>
                     </Pressable>
                 </View>
             </View>
         </>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     screen3: {
@@ -159,6 +140,6 @@ const styles = StyleSheet.create({
     textWhiteContainer: {
         paddingLeft: 15,
     },
-})
+});
 
-export default SignInScreen
+export default SignInScreen;

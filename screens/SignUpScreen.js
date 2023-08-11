@@ -1,58 +1,89 @@
-import * as React from 'react'
-import { StyleSheet, View, Text, Pressable, Image } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
-import { Color, Border, FontSize, FontFamily } from '../GlobalStyles'
-import TextInputExample from '../Component/TextInput'
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, Pressable, Modal } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+
+import { Color, Border, FontSize, FontFamily } from '../GlobalStyles';
+import TextInputExample from '../Component/TextInputExample';
 
 const SignUpScreen = () => {
-    const navigation = useNavigation()
+    const navigation = useNavigation();
+
+    const [firstname, setFirstname] = useState('');
+    const [lastname, setLastname] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [errorModalVisible, setErrorModalVisible] = useState(false);
+    const [errorMessages, setErrorMessages] = useState([]);
+
+    const handleSignup = async () => {
+        try {
+            const response = await axios.post('http://192.168.1.12:3000/api/v1/signup', {
+                firstname,
+                lastname,
+                email,
+                password,
+                confirmPassword,
+            });
+
+            if (response.status === 201) {
+                // Redirection vers la page de connexion
+                navigation.navigate('SignInScreen');
+            }
+        } catch (error) {
+            if (error.response && error.response.data && error.response.data.error) {
+                const responseError = error.response.data;
+                setErrorMessages(responseError.error);
+                setErrorModalVisible(true);
+            } else {
+                console.log('Erreur inattendue :', error.message);
+            }
+        }
+    };
 
     return (
         <View style={styles.background}>
             <Text style={styles.bonjour}>{`Bonjour, `}</Text>
             <View style={styles.screen2Child}>
-                <Text style={styles.welcomeSentence}>
-                    Bienvenue sur HandyMirror !
-                </Text>
-                <Text style={styles.welcomeSentence2}>
-                    Ensemble améliorons votre quotidien !
-                </Text>
+                <Text style={styles.welcomeSentence}>Bienvenue sur HandyMirror !</Text>
+                <Text style={styles.welcomeSentence2}>Ensemble améliorons votre quotidien !</Text>
                 <View style={styles.containerForm}>
-                    <TextInputExample placeholder="Quel est votre prénom ?" />
-                    <TextInputExample placeholder="Quel est votre nom ?" />
-                    <TextInputExample placeholder="Quel est votre adresse mail" />
-                    <TextInputExample placeholder="Saisissez un mot de passe" />
-                    <TextInputExample placeholder="Resaisissez votre mot de passe" />
-                    <Pressable
-                        style={styles.registerButton}
-                        onPress={() => navigation.navigate('CustomizeScreen')}
-                    >
-                        <Text
-                            style={[
-                                styles.senregistrer1,
-                                styles.seConnecterTypo,
-                            ]}
-                        >
-                            Senregistrer
-                        </Text>
+                    <TextInputExample placeholder="Quel est votre prénom ?" value={firstname} onChangeText={setFirstname} />
+                    <TextInputExample placeholder="Quel est votre nom ?" value={lastname} onChangeText={setLastname} />
+                    <TextInputExample placeholder="Quel est votre adresse mail" value={email} onChangeText={setEmail} />
+                    <TextInputExample placeholder="Saisissez un mot de passe" value={password} onChangeText={setPassword} />
+                    <TextInputExample placeholder="Resaisissez votre mot de passe" value={confirmPassword} onChangeText={setConfirmPassword} />
+                    <Pressable style={styles.registerButton} onPress={handleSignup}>
+                        <Text style={[styles.senregistrer1, styles.seConnecterTypo]}>S'enregistrer</Text>
                     </Pressable>
                 </View>
 
-                <Pressable
-                    style={styles.ToSignUpContainer}
-                    onPress={() => navigation.navigate('SignInScreen')}
-                >
+                <Pressable style={styles.ToSignUpContainer} onPress={() => navigation.navigate('SignInScreen')}>
                     <Text>
-                        <Text
-                            style={styles.FirstPart}
-                        >{`On se connait déjà ? `}</Text>
+                        <Text style={styles.FirstPart}>{`On se connaît déjà ? `}</Text>
                         <Text style={styles.crimson}>Se connecter</Text>
                     </Text>
                 </Pressable>
             </View>
+            <Modal visible={errorModalVisible} animationType="slide" transparent>
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalTitle}>
+                        <Text style={styles.modalTitleText}>Oups...</Text>
+                    </View>
+                    <View style={styles.modalContentText}>
+                        <Text style={styles.modalContentText}>{errorMessages}</Text>
+                    </View>
+                    <View style={styles.modalClose}>
+                        <Pressable onPress={() => setErrorModalVisible(false)}>
+                            <Text style={styles.modalCloseText}>Fermer</Text>
+                        </Pressable>
+                    </View>
+                </View>
+            </Modal>
         </View>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     background: {
@@ -139,6 +170,46 @@ const styles = StyleSheet.create({
         left: '22%',
         position: 'absolute',
     },
-})
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        paddingHorizontal: '10%',
+        backgroundColor: 'rgba(0,0,0,0.8)',
+    },
+    modalTitle: {
+        backgroundColor: 'rgb(169,0,0)',
+        alignItems: 'flex-start',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderTopStartRadius: 5,
+        borderTopEndRadius: 5,
+    },
+    modalTitleText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: Color.antiquewhite,
+    },
+    modalContent: {
+        backgroundColor: Color.antiquewhite,
+    },
+    modalContentText: {
+        backgroundColor: Color.antiquewhite,
+        color: Color.black,
+        paddingVertical: 20,
+        paddingHorizontal: 10,
+        fontWeight: 'bold',
+    },
+    modalClose: {
+        backgroundColor: Color.gray_100,
+        padding: 10,
+        alignItems: 'flex-end',
+        justifyContent: 'center',
+        textTransform: 'uppercase',
+    },
+    modalCloseText: {
+        color: Color.antiquewhite,
+        textTransform: 'uppercase',
+    },
+});
 
-export default SignUpScreen
+export default SignUpScreen;
