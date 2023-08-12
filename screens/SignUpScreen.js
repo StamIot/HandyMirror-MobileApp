@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text, Pressable, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
-import Config from '../config/config';
 
 import { Color, Border, FontSize, FontFamily } from '../GlobalStyles';
 import TextInputExample from '../Component/TextInputExample';
@@ -20,7 +19,7 @@ const SignUpScreen = () => {
 
     const handleSignup = async () => {
         try {
-            const response = await axios.post(`${Config.IP_LOCAL_REACT_NATIVE}:${Config.PORT_REACT_NATIVE}/api/v1/signup`, {
+            const response = await axios.post(`http://${Config.IP_LOCAL_REACT_NATIVE}:${Config.PORT_REACT_NATIVE}/api/v1/signup`, {
                 firstname,
                 lastname,
                 email,
