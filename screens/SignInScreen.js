@@ -1,6 +1,8 @@
 // Dépendances
-import { StyleSheet, View, Text, Pressable, Image } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, View, Text, Pressable, Image, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
 // Styles
 import { Color, FontFamily, FontSize } from '../GlobalStyles';
@@ -10,6 +12,39 @@ import TextInputExample from '../Component/TextInputExample';
 
 const SignInScreen = () => {
     const navigation = useNavigation();
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [errorModalVisible, setErrorModalVisible] = useState(false);
+    const [errorMessages, setErrorMessages] = useState([]);
+
+    const handleSignIn = async () => {
+        if (!password) {
+            setErrorMessages('Veuillez saisir votre mot de passe.');
+            setErrorModalVisible(true);
+            return;
+        }
+
+        try {
+            const response = await axios.post('http://192.168.1.12:3000/api/v1/signin', {
+                email,
+                password,
+            });
+
+            if (response.status === 200) {
+                // Redirection vers la page de profil
+                navigation.navigate('CustomizeScreen');
+            }
+        } catch (error) {
+            if (error.response && error.response.data && error.response.data.error) {
+                const responseError = error.response.data;
+                setErrorMessages(responseError.error);
+                setErrorModalVisible(true);
+            } else {
+                console.log('Erreur inattendue :', error.message);
+            }
+        }
+    };
 
     return (
         <>
@@ -30,13 +65,29 @@ const SignInScreen = () => {
                 <View style={styles.formContainer}>
                     <Image resizeMode="cover" source={require('../assets/maincoucou03-1.png')} />
                     <View style={styles.inputContainer}>
-                        <TextInputExample placeholder={'Entrez votre adresse mail'} />
-                        <TextInputExample placeholder={'Entrez votre mot de passe'} />
+                        <TextInputExample placeholder={'Entrez votre adresse mail'} value={email} onChangeText={setEmail} />
+                        <TextInputExample placeholder={'Entrez votre mot de passe'} value={password} onChangeText={setPassword} secureTextEntry={true} />
                     </View>
-                    <Pressable style={styles.btnLogin} onPress={() => navigation.navigate('CustomizeScreen')}>
+                    <Pressable style={styles.btnLogin} onPress={handleSignIn}>
                         <Text style={styles.btnLoginColor}>Se connecter</Text>
                     </Pressable>
                 </View>
+
+                <Modal visible={errorModalVisible} animationType="slide" transparent>
+                    <View style={styles.modalContainer}>
+                        <View style={styles.modalTitle}>
+                            <Text style={styles.modalTitleText}>Oups...</Text>
+                        </View>
+                        <View style={styles.modalContentText}>
+                            <Text style={styles.modalContentText}>{errorMessages}</Text>
+                        </View>
+                        <View style={styles.modalClose}>
+                            <Pressable onPress={() => setErrorModalVisible(false)}>
+                                <Text style={styles.modalCloseText}>Fermer</Text>
+                            </Pressable>
+                        </View>
+                    </View>
+                </Modal>
 
                 {/* Pas de compte s'enregistrer */}
                 <View style={styles.notAccountContainer}>
@@ -139,6 +190,46 @@ const styles = StyleSheet.create({
     },
     textWhiteContainer: {
         paddingLeft: 15,
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        paddingHorizontal: '10%',
+        backgroundColor: 'rgba(0,0,0,0.8)',
+    },
+    modalTitle: {
+        backgroundColor: 'rgb(169,0,0)',
+        alignItems: 'flex-start',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderTopStartRadius: 5,
+        borderTopEndRadius: 5,
+    },
+    modalTitleText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: Color.antiquewhite,
+    },
+    modalContent: {
+        backgroundColor: Color.antiquewhite,
+    },
+    modalContentText: {
+        backgroundColor: Color.antiquewhite,
+        color: Color.black,
+        paddingVertical: 20,
+        paddingHorizontal: 10,
+        fontWeight: 'bold',
+    },
+    modalClose: {
+        backgroundColor: Color.gray_100,
+        padding: 10,
+        alignItems: 'flex-end',
+        justifyContent: 'center',
+        textTransform: 'uppercase',
+    },
+    modalCloseText: {
+        color: Color.antiquewhite,
+        textTransform: 'uppercase',
     },
 });
 
