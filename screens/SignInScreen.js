@@ -27,7 +27,7 @@ const SignInScreen = () => {
         }
 
         try {
-            const response = await axios.post(`${Config.IP_LOCAL_REACT_NATIVE}:${Config.PORT_REACT_NATIVE}/api/v1/signin`, {
+            const response = await axios.post(`http://${Config.IP_LOCAL_REACT_NATIVE}:${Config.PORT_REACT_NATIVE}/api/v1/signin`, {
                 email,
                 password,
             });
