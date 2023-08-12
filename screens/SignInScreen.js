@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { StyleSheet, View, Text, Pressable, Image, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import Config from '../config/config';
 
 // Styles
 import { Color, FontFamily, FontSize } from '../GlobalStyles';
@@ -26,7 +27,7 @@ const SignInScreen = () => {
         }
 
         try {
-            const response = await axios.post('http://192.168.1.12:3000/api/v1/signin', {
+            const response = await axios.post(`${Config.IP_LOCAL_REACT_NATIVE}:${Config.PORT_REACT_NATIVE}/api/v1/signin`, {
                 email,
                 password,
             });
