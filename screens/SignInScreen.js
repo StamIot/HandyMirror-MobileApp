@@ -4,6 +4,7 @@ import { StyleSheet, View, Text, Pressable, Image, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import Config from '../config/config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Styles
 import { Color, FontFamily, FontSize } from '../GlobalStyles';
@@ -33,6 +34,9 @@ const SignInScreen = () => {
             });
 
             if (response.status === 200) {
+                // console.log(response.data.user._id);
+                await AsyncStorage.setItem('userID', response.data.user._id);
+
                 // Redirection vers la page de profil
                 navigation.navigate('CustomizeScreen');
             }

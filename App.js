@@ -1,30 +1,21 @@
-import { StatusBar } from 'expo-status-bar'
-import {
-    StyleSheet,
-    Text,
-    View,
-    ImageBackground,
-    Pressable,
-} from 'react-native'
-import { AntDesign } from '@expo/vector-icons'
-import { Colors } from './src/utilities/Colors'
-import { NavigationContainer } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
-import SignInScreen from './screens/SignInScreen'
-import SignUpScreen from './screens/SignUpScreen'
-import HomeScreen from './screens/HomeScreen'
-import CustomizeScreen from './screens/CustomizeScreen'
-import SettingsScreen from './screens/SettingsScreen'
-import EditProfileScreen from './screens/EditProfileScreen'
-import ContactScreen from './screens/ContactScreen'
-import FaceIDScreen from './screens/FaceIDScreen'
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View, ImageBackground, Pressable } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
+import { Colors } from './src/utilities/Colors';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import SignInScreen from './screens/SignInScreen';
+import SignUpScreen from './screens/SignUpScreen';
+import HomeScreen from './screens/HomeScreen';
+import CustomizeScreen from './screens/CustomizeScreen';
+import SettingsScreen from './screens/SettingsScreen';
+import EditProfileScreen from './screens/EditProfileScreen';
+import ContactScreen from './screens/ContactScreen';
+import FaceIDScreen from './screens/FaceIDScreen';
 
 function OpeningScreen({ navigation }) {
     return (
-        <ImageBackground
-            source={require('./src/images/homeScreen.png')}
-            style={{ width: '100%', height: '100%' }}
-        >
+        <ImageBackground source={require('./src/images/homeScreen.png')} style={{ width: '100%', height: '100%' }}>
             <StatusBar style="auto" />
             <View style={styles.container}>
                 <Text style={styles.textWhite}>
@@ -42,14 +33,12 @@ function OpeningScreen({ navigation }) {
                 </View>
 
                 <View>
-                    <Text style={{ fontSize: 24, color: Colors.beige }}>
-                        On commence ?
-                    </Text>
+                    <Text style={{ fontSize: 24, color: Colors.beige }}>On commence ?</Text>
                 </View>
 
                 <View>
                     <Pressable
-                        onPress={() => navigation.navigate('SignUpScreen')}
+                        onPress={() => navigation.navigate('SignInScreen')}
                         style={styles.button}
                         android_ripple={{
                             color: Colors.beige,
@@ -61,10 +50,10 @@ function OpeningScreen({ navigation }) {
                 </View>
             </View>
         </ImageBackground>
-    )
+    );
 }
 
-const Stack = createStackNavigator()
+const Stack = createStackNavigator();
 
 export default function App() {
     return (
@@ -74,23 +63,14 @@ export default function App() {
                 <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
                 <Stack.Screen name="SignInScreen" component={SignInScreen} />
                 <Stack.Screen name="HomeScreen" component={HomeScreen} />
-                <Stack.Screen
-                    name="CustomizeScreen"
-                    component={CustomizeScreen}
-                />
-                <Stack.Screen
-                    name="SettingsScreen"
-                    component={SettingsScreen}
-                />
-                <Stack.Screen
-                    name="EditProfileScreen"
-                    component={EditProfileScreen}
-                />
+                <Stack.Screen name="CustomizeScreen" component={CustomizeScreen} />
+                <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
+                <Stack.Screen name="EditProfileScreen" component={EditProfileScreen} />
                 <Stack.Screen name="ContactScreen" component={ContactScreen} />
                 <Stack.Screen name="FaceIDScreen" component={FaceIDScreen} />
             </Stack.Navigator>
         </NavigationContainer>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -136,8 +116,7 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         padding: 15,
         backgroundColor: 'white',
-        background:
-            'linear-gradient(90deg, #ffffff 0%, #ffffff 70%, #c7d9ff 100%)',
+        background: 'linear-gradient(90deg, #ffffff 0%, #ffffff 70%, #c7d9ff 100%)',
         boxShadow: '0px 0px 10px 1px #c7d9ff', // ombre pour donner un effet de profondeur
     },
-})
+});
