@@ -26,6 +26,8 @@ const EditProfileScreen = () => {
     const [children, setChildren] = useState(false);
     const [contentForm, setContentForm] = useState({});
 
+    useEffect(() => {});
+
     useEffect(() => {
         const fetchData = async () => {
             const userID = await AsyncStorage.getItem('userID');
@@ -37,7 +39,6 @@ const EditProfileScreen = () => {
                     const userJson = await userResponse.json();
 
                     setContentForm({ ...userJson });
-
                     setFirstname(userJson.users.firstname);
                     setLastname(userJson.users.lastname);
                     setEmail(userJson.users.email);
@@ -73,12 +74,20 @@ const EditProfileScreen = () => {
 
                     {/* Ajouter votre photo */}
                     <View style={styles.titleContainer}>
-                        <Pressable style={styles.goBack} onPress={() => navigation.goBack()}>
+                        <Pressable style={styles.goBack} onPress={() => navigation.goBack({ refresh: true })}>
                             <View style={styles.iconContainer}>
                                 <Entypo name="arrow-with-circle-left" size={64} color={Color.dimgray} />
                             </View>
                         </Pressable>
-                        <Pressable style={styles.goBack} onPress={() => navigation.goBack()}>
+                        <Pressable
+                            style={styles.goBack}
+                            onPress={() => {
+                                console.log('à éditer');
+                                {
+                                    /* navigation.goBack({ refresh: true } */
+                                }
+                            }}
+                        >
                             <View style={styles.photoCircleContainer}>
                                 <Text style={styles.photoCircleText}>{'Ajouter votre photos'}</Text>
                             </View>
@@ -98,7 +107,7 @@ const EditProfileScreen = () => {
                             {/* Firstname */}
                             <View style={[styles.inputTextContainer, styles.inputSmallTextContainer, { marginRight: 5 }]}>
                                 <Text style={styles.inputTextPlaceholder}>Prénom</Text>
-                                <TextInput style={styles.inputTextSaisie} onChangeText={setFirstname} value={firstname} placeholder="Votre nom" />
+                                <TextInput style={styles.inputTextSaisie} onChangeText={setFirstname} value={firstname} placeholder="Votre prénom" />
                             </View>
 
                             {/* Lastname */}
@@ -160,12 +169,7 @@ const EditProfileScreen = () => {
                         {/* City */}
                         <View style={styles.inputTextContainer}>
                             <Text style={styles.inputTextPlaceholder}>Ville</Text>
-                            <TextInput
-                                style={styles.inputTextSaisie}
-                                onChangeText={setCity}
-                                value={city}
-                                placeholder="La ville sera utilisé pour le module de localisation"
-                            />
+                            <TextInput style={styles.inputTextSaisie} onChangeText={setCity} value={city} placeholder="La ville sera utilisé pour le module de localisation" />
                         </View>
 
                         {/* Compagnon Name */}
@@ -197,50 +201,40 @@ const EditProfileScreen = () => {
                             style={styles.btnLogin}
                             onPress={async () => {
                                 try {
-                                    // Créez un objet avec les modifications à envoyer au serveur
-                                    const updateData = {
-                                        users: {
-                                            firstname: firstname,
-                                            lastname: lastname,
-                                            email: email,
-                                            pseudo: pseudo,
-                                            phone: phone,
-                                            genre: genre,
-                                            addressAtHome: addressAtHome,
-                                            city: city,
-                                            country: country,
-                                            compagnionLife: compagnionLife,
-                                            children: children,
-                                        },
+                                    const updatedContentForm = {
+                                        ...contentForm.users,
+                                        firstname: firstname,
+                                        lastname: lastname,
+                                        email: email,
+                                        pseudo: pseudo,
+                                        phone: phone,
+                                        genre: genre,
+                                        addressAtHome: addressAtHome,
+                                        city: city,
+                                        country: country,
+                                        compagnionLife: compagnionLife,
+                                        children: children,
                                     };
+                                    console.log('\n\n ------------------ contentForm ', updatedContentForm, '\n\n');
 
-                                    console.log({ users: updateData.users });
+                                    // Mettez à jour les données locales dans AsyncStorage
+                                    await AsyncStorage.setItem('userData', JSON.stringify(updatedContentForm));
 
-                                    // Envoyez updateData à l'API pour validation (à implémenter)
-                                    const validationResponse = await fetch(
-                                        `http://${Config.IP_LOCAL_REACT_NATIVE}:${Config.PORT_REACT_NATIVE}/api/v1/users/${userID}`,
-                                        {
-                                            method: 'PUT',
-                                            headers: {
-                                                'Content-Type': 'application/json',
-                                            },
-                                            body: JSON.stringify(updateData),
+                                    // Envoyez à l'API pour validation (à implémenter)
+                                    const validationResponse = await fetch(`http://${Config.IP_LOCAL_REACT_NATIVE}:${Config.PORT_REACT_NATIVE}/api/v1/users/${userID}`, {
+                                        method: 'PUT',
+                                        headers: {
+                                            'Content-Type': 'application/json',
                                         },
-                                    );
+                                        body: JSON.stringify(updatedContentForm),
+                                    });
 
                                     const validationJson = await validationResponse.json();
-
-                                    console.log(validationJson);
-
-                                    if (validationJson.success) {
-                                        // Si la validation est réussie, mettez à jour les données localement
-                                        setContentForm({ ...contentForm, users: updateData.users });
-
-                                        // Naviguer vers la prochaine étape
-                                        navigation.navigate('CustomizeScreen');
-                                    } else {
-                                        console.log('Validation failed:', validationJson.message);
-                                    }
+                                    console.log('\n\n ------------------ users ', validationJson, '\n\n');
+                                    console.log('REDIRECCCCCCCCCCCCCCCCCCT');
+                                    navigation.navigate('CustomizeScreen', { refresh: true });
+                                    //navigation.goBack({ refresh: true }); // Indiquez à CustomizeScreen de rafraîchir ses données
+                                    // navigation.navigate('CustomizeScreen');
                                 } catch (error) {
                                     console.log('Error updating data:', error);
                                 }

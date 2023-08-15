@@ -1,17 +1,22 @@
 // Dépendances
 import { StyleSheet, View, Text, Pressable, Image, FlatList, Switch } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Styles
 import { Color, FontFamily, FontSize } from '../GlobalStyles';
+import Config from '../config/config';
 
 const CustomizeScreen = ({ photoUri }) => {
     const navigation = useNavigation();
+    const route = useRoute();
 
-    const [userData, setUserData] = useState({});
+    const [userData, setUserData] = useState({
+        firstname: '',
+        modules: [],
+    });
     const [firstname, setFirstname] = useState('');
     const [modules, setModules] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -20,31 +25,34 @@ const CustomizeScreen = ({ photoUri }) => {
         const fetchData = async () => {
             try {
                 const userID = await AsyncStorage.getItem('userID');
+                const AsyncStorageGetFirstname = await AsyncStorage.getItem('userData');
+                const { firstname: AsyncStorageFirstnameParse } = JSON.parse(AsyncStorageGetFirstname);
+                // console.log(AsyncStorageFirstnameParse);
 
-                if (userID) {
-                    const userResponse = await fetch(`http://192.168.1.12:3000/api/v1/users/${userID}`);
-                    const userJson = await userResponse.json();
-                    console.log(userJson);
+                const CheckUserExist = await fetch(`http://${Config.IP_LOCAL_REACT_NATIVE}:${Config.PORT_REACT_NATIVE}/api/v1/users/${userID}`);
+                const userFound = await CheckUserExist.json();
 
-                    const clockModuleResponse = await fetch(`http://192.168.1.12:3000/api/v1/modules/64d8df7226bb4f951331e3f2`);
+                if (userFound) {
+                    const { firstname: firstnameJSON, modules: modulesJSON } = userFound.users;
+                    //console.log(firstnameJSON, modulesJSON);
+
+                    const clockModuleResponse = await fetch(`http://${Config.IP_LOCAL_REACT_NATIVE}:${Config.PORT_REACT_NATIVE}/api/v1/modules/64d8df7226bb4f951331e3f2`);
                     const clockJson = await clockModuleResponse.json();
 
-                    const medicationReminderResponse = await fetch(`http://192.168.1.12:3000/api/v1/modules/64d8e2c75a4e966a9c7782bd`);
+                    const medicationReminderResponse = await fetch(`http://${Config.IP_LOCAL_REACT_NATIVE}:${Config.PORT_REACT_NATIVE}/api/v1/modules/64d8e2c75a4e966a9c7782bd`);
                     const medicationReminderJson = await medicationReminderResponse.json();
 
-                    const openmapWeatherResponse = await fetch(`http://192.168.1.12:3000/api/v1/modules/64d8e2ca5a4e966a9c7782c0`);
+                    const openmapWeatherResponse = await fetch(`http://${Config.IP_LOCAL_REACT_NATIVE}:${Config.PORT_REACT_NATIVE}/api/v1/modules/64d8e2ca5a4e966a9c7782c0`);
                     const openmapWeatherJson = await openmapWeatherResponse.json();
 
-                    const tdaResponse = await fetch(`http://192.168.1.12:3000/api/v1/modules/64d8e2cc5a4e966a9c7782c3`);
+                    const tdaResponse = await fetch(`http://${Config.IP_LOCAL_REACT_NATIVE}:${Config.PORT_REACT_NATIVE}/api/v1/modules/64d8e2cc5a4e966a9c7782c3`);
                     const tdaJson = await tdaResponse.json();
 
-                    setFirstname(userJson.users.firstname);
-                    setModules([clockJson.modules, medicationReminderJson.modules, openmapWeatherJson.modules, tdaJson.modules]);
                     setUserData({
-                        firstname: firstname,
-                        modules: modules,
+                        ...userData,
+                        firstname: firstnameJSON || AsyncStorageFirstnameParse,
+                        modules: [clockJson.modules, medicationReminderJson.modules, openmapWeatherJson.modules, tdaJson.modules],
                     });
-                    // console.log(userData);
                     setLoading(false);
                 }
             } catch (error) {
@@ -52,9 +60,16 @@ const CustomizeScreen = ({ photoUri }) => {
                 setLoading(false);
             }
         };
-
         fetchData();
-    }, [loading]);
+
+        if (route.params?.refresh) {
+            setLoading(true);
+            setTimeout(() => {
+                route.params.refresh = false; // Ne changez pas directement cette valeur, utilisez plutôt un nouveau paramètre
+                fetchData(); // Refetch data after the specified time
+            }, 1000);
+        }
+    }, [route.params?.refresh]);
 
     const toggleSwitch = (id) => {
         setUserData((prevUserData) => ({
@@ -73,72 +88,101 @@ const CustomizeScreen = ({ photoUri }) => {
                     <View style={[styles.circle, styles.circleTwo]}></View>
                 </View>
 
-                {/* Accueil */}
-                <View style={styles.messageContainer}>
-                    <Image style={styles.avatar} source={require('../assets/Default_UserProfilePicture1.png')} />
-                    <Text style={styles.message}>{`Hi ${firstname}, `}</Text>
-                    <Pressable style={styles.goEditProfil} onPress={() => navigation.navigate('EditProfileScreen')}>
-                        <View style={styles.iconContainer}>
-                            <FontAwesome name="user-circle-o" size={24} color={Color.dimgray} />
-                        </View>
-                    </Pressable>
-                </View>
-
-                {/* Un message */}
-                <View style={styles.textWhiteContainer}>
-                    <Text style={styles.messageTextWhite}>Que souhaitez vous laissez apparaître sur votre HandyMirror ?</Text>
-                </View>
-
-                {/* Liste des éléments de la liste */}
-                <View style={styles.list}>
-                    {loading ? (
-                        <View
+                {loading ? (
+                    <View
+                        style={{
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <Image
+                            source={photoUri ? { uri: photoUri } : require('../assets/loader.gif')}
                             style={{
-                                alignItems: 'center',
-                                justifyContent: 'center',
+                                width: 100,
+                                height: 100,
+                                borderRadius: 100,
+                                backgroundColor: 'transparent',
                             }}
-                        >
-                            <Image
-                                source={photoUri ? { uri: photoUri } : require('../assets/loader.gif')}
-                                style={{
-                                    width: 100,
-                                    height: 100,
-                                    borderRadius: 100,
-                                    backgroundColor: 'transparent',
-                                }}
-                            />
-                        </View>
-                    ) : (
-                        <FlatList
-                            data={userData.modules}
-                            renderItem={({ item }) => (
-                                <View style={styles.listItem}>
-                                    <View style={{ width: '80%' }}>
-                                        <Text style={styles.listItemName}>{item.name}</Text>
-                                        <Text>{item.description}</Text>
-                                    </View>
-                                    <View style={{ width: '20%' }}>
-                                        <Switch value={item.activated} onValueChange={() => toggleSwitch(item._id)} />
-                                    </View>
-                                </View>
-                            )}
-                            keyExtractor={(item) => item._id}
                         />
-                    )}
-                </View>
-
-                {/* Pas de compte s'enregistrer */}
-                <View style={styles.optionsContainer}>
-                    <Pressable style={styles.goSettings} onPress={() => navigation.navigate('SettingsScreen')}>
-                        <View style={styles.iconContainer}>
-                            <Ionicons name="settings-outline" size={24} color="black" />
+                    </View>
+                ) : (
+                    <>
+                        {/* Accueil */}
+                        <View style={styles.messageContainer}>
+                            <Image style={styles.avatar} source={require('../assets/Default_UserProfilePicture1.png')} />
+                            <Text style={styles.message}>{`Hi ${userData.firstname}, `}</Text>
+                            <Pressable style={styles.goEditProfil} onPress={() => navigation.navigate('EditProfileScreen')}>
+                                <View style={styles.iconContainer}>
+                                    <FontAwesome name="user-circle-o" size={24} color={Color.dimgray} />
+                                </View>
+                            </Pressable>
                         </View>
-                    </Pressable>
 
-                    <Pressable style={styles.btnLogin} onPress={() => navigation.navigate('AddModuleScreen')}>
-                        <Text style={styles.btnLoginColor}>Voir plus</Text>
-                    </Pressable>
-                </View>
+                        {/* Un message */}
+                        <View style={styles.textWhiteContainer}>
+                            <Text style={styles.messageTextWhite}>Que souhaitez vous laissez apparaître sur votre HandyMirror ?</Text>
+                        </View>
+
+                        {/* Liste des éléments de la liste */}
+                        <View style={styles.list}>
+                            {loading ? (
+                                <View
+                                    style={{
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                    }}
+                                >
+                                    <Image
+                                        source={photoUri ? { uri: photoUri } : require('../assets/loader.gif')}
+                                        style={{
+                                            width: 100,
+                                            height: 100,
+                                            borderRadius: 100,
+                                            backgroundColor: 'transparent',
+                                        }}
+                                    />
+                                </View>
+                            ) : (
+                                <FlatList
+                                    data={userData.modules}
+                                    renderItem={({ item }) => (
+                                        <View style={styles.listItem}>
+                                            <View style={{ width: '80%' }}>
+                                                <Text style={styles.listItemName}>{item.name}</Text>
+                                                <Text>{item.description}</Text>
+                                            </View>
+                                            <View style={{ width: '20%' }}>
+                                                <Switch value={item.activated} onValueChange={() => toggleSwitch(item._id)} />
+                                            </View>
+                                        </View>
+                                    )}
+                                    keyExtractor={(item) => item._id}
+                                />
+                            )}
+                        </View>
+
+                        {/* Pas de compte s'enregistrer */}
+                        <View style={styles.optionsContainer}>
+                            <Pressable style={styles.goSettings} onPress={() => navigation.navigate('SettingsScreen')}>
+                                <View style={styles.iconContainer}>
+                                    <Ionicons name="settings-outline" size={24} color="black" />
+                                </View>
+                            </Pressable>
+
+                            <Pressable
+                                style={styles.btnLogin}
+                                onPress={() => {
+                                    console.log('à éditer');
+                                    {
+                                        /* navigation.navigate('AddModuleScreen') */
+                                    }
+                                }}
+                            >
+                                <Text style={styles.btnLoginColor}>Voir plus</Text>
+                            </Pressable>
+                        </View>
+                    </>
+                )}
             </View>
         </>
     );
