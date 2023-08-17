@@ -1,15 +1,20 @@
-import { StatusBar } from 'expo-status-bar';
+// Dépendances
 import { StyleSheet, Text, View, ImageBackground, Pressable } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
-import { Colors } from './src/utilities/Colors';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { StatusBar } from 'expo-status-bar';
+import { AntDesign } from '@expo/vector-icons';
+
+// Utilitaire
+import * as Utilities from './src/utilities/utilities';
+
+// Screens
 import SignInScreen from './screens/SignInScreen';
 import SignUpScreen from './screens/SignUpScreen';
-import HomeScreen from './screens/HomeScreen';
-import CustomizeScreen from './screens/CustomizeScreen';
+// import HomeScreen from './screens/HomeScreen';
+import ProfileScreen from './screens/ProfileScreen';
 import SettingsScreen from './screens/SettingsScreen';
-import EditProfileScreen from './screens/EditProfileScreen';
+import EditInformationScreen from './screens/EditInformationScreen';
 import ContactScreen from './screens/ContactScreen';
 import FaceIDScreen from './screens/FaceIDScreen';
 
@@ -33,7 +38,7 @@ function OpeningScreen({ navigation }) {
                 </View>
 
                 <View>
-                    <Text style={{ fontSize: 24, color: Colors.beige }}>On commence ?</Text>
+                    <Text style={{ fontSize: 24, color: Utilities.color.light.antiquewhite }}>On commence ?</Text>
                 </View>
 
                 <View>
@@ -41,7 +46,7 @@ function OpeningScreen({ navigation }) {
                         onPress={() => navigation.navigate('SignInScreen')}
                         style={styles.button}
                         android_ripple={{
-                            color: Colors.beige,
+                            color: Utilities.color.light.antiquewhite,
                             borderless: true,
                         }}
                     >
@@ -60,12 +65,12 @@ export default function App() {
         <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: false }}>
                 <Stack.Screen name="OpeningScreen" component={OpeningScreen} />
-                <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+                <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+                {/* <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
                 <Stack.Screen name="SignInScreen" component={SignInScreen} />
-                <Stack.Screen name="HomeScreen" component={HomeScreen} />
-                <Stack.Screen name="CustomizeScreen" component={CustomizeScreen} />
+                <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+                <Stack.Screen name="EditInformationScreen" component={EditInformationScreen} />
                 <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
-                <Stack.Screen name="EditProfileScreen" component={EditProfileScreen} />
                 <Stack.Screen name="ContactScreen" component={ContactScreen} />
                 <Stack.Screen name="FaceIDScreen" component={FaceIDScreen} />
             </Stack.Navigator>
@@ -73,10 +78,11 @@ export default function App() {
     );
 }
 
+// Styles
 const styles = StyleSheet.create({
     container: {
         flex: 0.9,
-        backgroundColor: 'black',
+        backgroundColor: Utilities.color.black,
         opacity: 0.6,
         alignItems: 'center',
         justifyContent: 'flex-end',
@@ -84,38 +90,38 @@ const styles = StyleSheet.create({
     containerBottom: {
         flex: 0.1,
         opacity: 0.6,
-        backgroundColor: 'black',
+        backgroundColor: Utilities.color.black,
 
         alignItems: 'center',
         justifyContent: 'space-around',
         flexDirection: 'row',
     },
     textWhite: {
-        color: Colors.beige,
+        color: Utilities.color.light.antiquewhite,
         fontSize: 64,
     },
     textDarkGreen: {
-        color: Colors.darkGreen,
+        color: Utilities.color.dark.green,
         fontSize: 64,
     },
     round: {
         width: 10,
         height: 10,
-        borderRadius: 50,
-        backgroundColor: Colors.grey,
+        borderRadius: Utilities.border.round,
+        backgroundColor: Utilities.color.light.grey,
         marginHorizontal: 5,
     },
     largeRound: {
         width: 50,
         height: 10,
-        borderRadius: 50,
-        backgroundColor: Colors.beige,
+        borderRadius: Utilities.border.round,
+        backgroundColor: Utilities.color.light.antiquewhite,
         marginHorizontal: 5,
     },
     button: {
-        borderRadius: 50,
+        borderRadius: Utilities.border.round,
         padding: 15,
-        backgroundColor: 'white',
+        backgroundColor: Utilities.color.white,
         background: 'linear-gradient(90deg, #ffffff 0%, #ffffff 70%, #c7d9ff 100%)',
         boxShadow: '0px 0px 10px 1px #c7d9ff', // ombre pour donner un effet de profondeur
     },

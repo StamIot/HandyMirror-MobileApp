@@ -1,14 +1,13 @@
 // Dépendances
-import { StyleSheet, View, Text, Pressable, TextInput } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
-import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons'
-import { useState } from 'react'
+import { StyleSheet, View, Text, Pressable } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 
-// Styles
-import { Color, FontFamily } from '../GlobalStyles'
+// Utilitaire
+import { Color, FontFamily } from '../GlobalStyles';
 
 const FaceIDScreen = () => {
-    const navigation = useNavigation()
+    const navigation = useNavigation();
 
     return (
         <>
@@ -22,16 +21,9 @@ const FaceIDScreen = () => {
 
                 {/* FaceID */}
                 <View style={styles.titleContainer}>
-                    <Pressable
-                        style={styles.goBack}
-                        onPress={() => navigation.goBack()}
-                    >
+                    <Pressable style={styles.goBack} onPress={() => navigation.goBack()}>
                         <View style={styles.iconContainer}>
-                            <Entypo
-                                name="arrow-with-circle-left"
-                                size={64}
-                                color={Color.dimgray}
-                            />
+                            <Entypo name="arrow-with-circle-left" size={64} color={Color.dimgray} />
                         </View>
                     </Pressable>
                     <Text style={styles.title}>{'FaceID'}</Text>
@@ -39,20 +31,11 @@ const FaceIDScreen = () => {
 
                 {/* Options */}
                 <View style={styles.faceIDContainer}>
-                    <Text style={styles.textContainer}>
-                        Positionnez votre visage en face de la caméra. Puis
-                        bougez doucement votre tête en cercle pour montrer toute
-                        les faces de votre visage s'il vous plait.
-                    </Text>
+                    <Text style={styles.textContainer}>Positionnez votre visage en face de la caméra. Puis bougez doucement votre tête en cercle pour montrer toute les faces de votre visage s'il vous plait.</Text>
 
                     {/* DETECTION */}
                     <View style={styles.bgcDetection}>
-                        <MaterialCommunityIcons
-                            style={styles.bgcDetectorIcon}
-                            name="face-recognition"
-                            size={150}
-                            color={Color.antiquewhite}
-                        />
+                        <MaterialCommunityIcons style={styles.bgcDetectorIcon} name="face-recognition" size={150} color={Color.antiquewhite} />
                     </View>
                 </View>
 
@@ -87,20 +70,16 @@ const FaceIDScreen = () => {
                             Cliquer ici
                         </Text>
                     </View>
-                    <Pressable
-                        style={styles.btnLogin}
-                        onPress={() => navigation.navigate('CustomizeScreen')}
-                    >
-                        <Text style={styles.btnLoginColor}>
-                            Démarrer la détection
-                        </Text>
+                    <Pressable style={styles.btnLogin} onPress={() => navigation.navigate('ProfileScreen')}>
+                        <Text style={styles.btnLoginColor}>Démarrer la détection</Text>
                     </Pressable>
                 </View>
             </View>
         </>
-    )
-}
+    );
+};
 
+// Styles
 const styles = StyleSheet.create({
     screen9: {
         flex: 1,
@@ -186,6 +165,6 @@ const styles = StyleSheet.create({
         textTransform: 'uppercase',
         fontSize: 16,
     },
-})
+});
 
-export default FaceIDScreen
+export default FaceIDScreen;

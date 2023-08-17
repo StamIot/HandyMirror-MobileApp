@@ -1,64 +1,77 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, Text, Pressable, Image, Switch } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
-import { Color, Border, FontFamily, FontSize } from '../GlobalStyles'
-import UserProfilePicture from '../Component/UserProfilePicture'
-import axios from 'axios'
+// Dépendances
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Text, Switch } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+
+// Fonts
+// import { useFonts } from 'expo-font';
+// import AppLoading from 'expo-app-loading';
+
+// Utilitaire
+import * as Utilities from '../src/utilities/utilities';
+
+// Screens
+import UserProfilePicture from '../Component/UserProfilePicture';
 
 const HomeScreen = () => {
-    const navigation = useNavigation()
-    const [isFirstConnection, setIsFirstConnection] = useState(true)
-    const [userName, setUserName] = useState('Toi') // remplacez "Toi" par le nom d'utilisateur réel
-    const [modules, setModules] = useState([])
+    // let [fontsLoaded] = useFonts({
+    //     'Roboto Regular': require('../assets/fonts/Roboto Regular.ttf'),
+    //     'Urbanist ExtraBold': require('../assets/fonts/Urbanist ExtraBold.ttf'),
+    //     'Urbanist Medium': require('../assets/fonts/Urbanist Medium.ttf'),
+    // });
+
+    // if (!fontsLoaded) {
+    //     return <AppLoading />;
+    // }
+
+    const navigation = useNavigation();
+    const [isFirstConnection, setIsFirstConnection] = useState(true);
+    const [userName, setUserName] = useState('Toi'); // remplacez "Toi" par le nom d'utilisateur réel
+    const [modules, setModules] = useState([]);
 
     const handleConnection = () => {
-        setIsFirstConnection(false)
-    }
+        setIsFirstConnection(false);
+    };
 
-    const greetingMessage = isFirstConnection
-        ? `Bonjour, ${userName} !`
-        : `Rebonjour, ${userName} !`
+    const greetingMessage = isFirstConnection ? `Bonjour, ${userName} !` : `Rebonjour, ${userName} !`;
 
     const getModules = async () => {
         try {
-            console.log('ici')
-            const response = await axios.get('http://127.0.0.1:8080/api/module')
-            setModules(response.data)
+            console.log('ici');
+            const response = await axios.get('http://127.0.0.1:8080/api/module');
+            setModules(response.data);
         } catch (error) {
-            console.log('la')
-            console.error(error)
+            console.log('la');
+            console.error(error);
         }
-    }
+    };
 
     useEffect(() => {
-        getModules()
-    }, [])
+        getModules();
+    }, []);
 
     const MagicMirrorModule = ({ name, description, enabled }) => {
-        const [isEnabled, setIsEnabled] = useState(enabled)
+        const [isEnabled, setIsEnabled] = useState(enabled);
 
         const toggleSwitch = async () => {
             try {
                 await axios.post('http://127.0.0.1:8080/api/module' + name, {
                     enabled: !isEnabled,
-                })
-                setIsEnabled(!isEnabled)
+                });
+                setIsEnabled(!isEnabled);
             } catch (error) {
-                console.error(error)
+                console.error(error);
             }
-        }
+        };
         return (
             <View style={styles.moduleContainer}>
                 <Text style={styles.moduleName}>{name}</Text>
                 <Text style={styles.moduleDescription}>{description}</Text>
-                <Switch
-                    style={styles.moduleSwitch}
-                    onValueChange={toggleSwitch}
-                    value={isEnabled}
-                />
+                <Switch style={styles.moduleSwitch} onValueChange={toggleSwitch} value={isEnabled} />
             </View>
-        )
-    }
+        );
+    };
 
     return (
         <View style={styles.background}>
@@ -67,25 +80,18 @@ const HomeScreen = () => {
                 <UserProfilePicture />
                 <Text style={styles.greeting}>{greetingMessage}</Text>
             </View>
-            <Text style={styles.welcomeSentence}>
-                Que souhaitez vous laisser apparaître
-            </Text>
+            <Text style={styles.welcomeSentence}>Que souhaitez vous laisser apparaître</Text>
             <Text style={styles.welcomeSentence2}>sur votre HandyMirror ?</Text>
             {modules.map((module, index) => (
-                <MagicMirrorModule
-                    key={index}
-                    name={module.name}
-                    description={module.description}
-                    enabled={module.enabled}
-                />
+                <MagicMirrorModule key={index} name={module.name} description={module.description} enabled={module.enabled} />
             ))}
         </View>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     background: {
-        backgroundColor: Color.dimgray,
+        backgroundColor: Utilities.color.dark.green,
         flex: 1,
         width: '100%',
         height: '100%',
@@ -105,7 +111,7 @@ const styles = StyleSheet.create({
         marginTop: '20%',
         marginLeft: '8%',
         flex: 0.2,
-        shadowColor: Color.black,
+        shadowColor: Utilities.color.black,
         shadowOffset: {
             width: 0,
             height: 3,
@@ -117,22 +123,22 @@ const styles = StyleSheet.create({
     greeting: {
         top: '20%',
         left: '35%',
-        fontSize: FontSize.size_21xl,
+        fontSize: Utilities.font.size.xl,
         textAlign: 'left',
-        color: Color.antiquewhite,
-        fontFamily: FontFamily.urbanistRegular,
+        color: Utilities.color.light.antiquewhite,
+        fontFamily: 'Urbanist ExtraBold',
         position: 'absolute',
     },
     welcomeSentence: {
-        color: Color.antiquewhite,
+        color: Utilities.color.light.antiquewhite,
         textAlign: 'center',
-        fontSize: FontSize.size_xl,
+        fontSize: Utilities.font.size.xl,
     },
     welcomeSentence2: {
-        color: Color.antiquewhite,
+        color: Utilities.color.light.antiquewhite,
         textAlign: 'center',
         marginBottom: '10%',
-        fontSize: FontSize.size_xl,
+        fontSize: Utilities.font.size.xl,
     },
     container: {
         flex: 1,
@@ -145,7 +151,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        backgroundColor: '#fff',
+        backgroundColor: Utilities.color.white,
         borderRadius: 8,
         padding: 16,
         marginVertical: 8,
@@ -163,6 +169,6 @@ const styles = StyleSheet.create({
     moduleSwitch: {
         marginLeft: 16,
     },
-})
+});
 
-export default HomeScreen
+export default HomeScreen;

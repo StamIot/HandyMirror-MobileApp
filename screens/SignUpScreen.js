@@ -1,10 +1,17 @@
+// Dépendances
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, Pressable, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+
+// Remplace dotenv
 import Config from '../config/config';
-import { Color, Border, FontSize, FontFamily } from '../GlobalStyles';
-import TextInputExample from '../Component/TextInputExample';
+
+// Utilitaire
+import * as Utilities from '../src/utilities/utilities';
+
+// Composants
+import MyInputText from '../Component/MyInputText';
 
 const SignUpScreen = () => {
     const navigation = useNavigation();
@@ -19,7 +26,7 @@ const SignUpScreen = () => {
 
     const handleSignup = async () => {
         try {
-            const response = await axios.post(`http://${Config.IP_LOCAL_REACT_NATIVE}:${Config.PORT_REACT_NATIVE}/api/v1/signUp`, {
+            const response = await axios.post(`http://${Config.IP_LOCAL_REACT_NATIVE}:${Config.PORT_SERVER_API}/api/v1/signUp`, {
                 firstname,
                 lastname,
                 email,
@@ -43,171 +50,229 @@ const SignUpScreen = () => {
     };
 
     return (
-        <View style={styles.background}>
+        <View style={styles.signUpContainer}>
+            {/* CERCLES */}
+            <View style={styles.circlesContainer}>
+                <View style={[styles.circle, styles.circleOne]}></View>
+                <View style={[styles.circle, styles.circleTwo]}></View>
+            </View>
+
+            {/* BONJOUR */}
             <Text style={styles.bonjour}>{`Bonjour, `}</Text>
-            <View style={styles.screen2Child}>
+
+            {/* FORULAIRE */}
+            <View style={styles.formContainer}>
                 <Text style={styles.welcomeSentence}>Bienvenue sur HandyMirror !</Text>
-                <Text style={styles.welcomeSentence2}>Ensemble améliorons votre quotidien !</Text>
-                <View style={styles.containerForm}>
-                    <TextInputExample placeholder="Quel est votre prénom ?" value={firstname} onChangeText={setFirstname} />
-                    <TextInputExample placeholder="Quel est votre nom ?" value={lastname} onChangeText={setLastname} />
-                    <TextInputExample placeholder="Quel est votre adresse mail" value={email} onChangeText={setEmail} />
-                    <TextInputExample placeholder="Saisissez un mot de passe" value={password} onChangeText={setPassword} />
-                    <TextInputExample placeholder="Resaisissez votre mot de passe" value={confirmPassword} onChangeText={setConfirmPassword} />
-                    <Pressable style={styles.registerButton} onPress={handleSignup}>
-                        <Text style={[styles.senregistrer1, styles.seConnecterTypo]}>S'enregistrer</Text>
+                <Text style={styles.welcomeSentence}>Ensemble améliorons votre quotidien !</Text>
+                <View style={styles.form}>
+                    <MyInputText placeholder="Quel est votre prénom ?" value={firstname} onChangeText={setFirstname} />
+                    <MyInputText placeholder="Quel est votre nom ?" value={lastname} onChangeText={setLastname} />
+                    <MyInputText placeholder="Quel est votre adresse mail" value={email} onChangeText={setEmail} />
+                    <MyInputText placeholder="Saisissez un mot de passe" value={password} onChangeText={setPassword} />
+                    <MyInputText placeholder="Resaisissez votre mot de passe" value={confirmPassword} onChangeText={setConfirmPassword} />
+                    <Pressable style={styles.btn} onPress={handleSignup}>
+                        <Text style={styles.btnText}>S'enregistrer</Text>
                     </Pressable>
                 </View>
 
-                <Pressable style={styles.ToSignUpContainer} onPress={() => navigation.navigate('SignInScreen')}>
-                    <Text>
-                        <Text style={styles.FirstPart}>{`On se connaît déjà ? `}</Text>
-                        <Text style={styles.crimson}>Se connecter</Text>
-                    </Text>
+                <Modal visible={errorModalVisible} animationType="slide" transparent>
+                    <View style={styles.modalContainer}>
+                        <View style={styles.modalTitle}>
+                            <Text style={styles.modalTitleText}>Oups...</Text>
+                        </View>
+                        <View style={styles.modalContentText}>
+                            <Text style={styles.modalContentText}>{errorMessages}</Text>
+                        </View>
+                        <View style={styles.modalClose}>
+                            <Pressable onPress={() => setErrorModalVisible(false)}>
+                                <Text style={styles.modalCloseText}>Fermer</Text>
+                            </Pressable>
+                        </View>
+                    </View>
+                </Modal>
+            </View>
+
+            {/* Déjà inscrit */}
+            <View style={styles.ToSignInScreenContainer}>
+                <Pressable style={styles.accountExistContainer} onPress={() => navigation.navigate('SignInScreen')}>
+                    <View style={styles.textContainer}>
+                        <Text style={styles.textDark}>On se connaît déjà ?</Text>
+                        <Text style={styles.textWhite}>Connexion</Text>
+                    </View>
                 </Pressable>
             </View>
-            <Modal visible={errorModalVisible} animationType="slide" transparent>
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalTitle}>
-                        <Text style={styles.modalTitleText}>Oups...</Text>
-                    </View>
-                    <View style={styles.modalContentText}>
-                        <Text style={styles.modalContentText}>{errorMessages}</Text>
-                    </View>
-                    <View style={styles.modalClose}>
-                        <Pressable onPress={() => setErrorModalVisible(false)}>
-                            <Text style={styles.modalCloseText}>Fermer</Text>
-                        </Pressable>
-                    </View>
-                </View>
-            </Modal>
         </View>
     );
 };
 
+// Styles
 const styles = StyleSheet.create({
-    background: {
-        backgroundColor: Color.dimgray,
+    signUpContainer: {
         flex: 1,
-    },
-    containerForm: {
-        justifyContent: 'center',
+        backgroundColor: Utilities.color.dark.green,
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
         width: '100%',
-        paddingBottom: 25,
-        paddingLeft: 25,
-        paddingRight: 25,
     },
+
+    /**
+     * CIRCLES
+     */
+    circlesContainer: {
+        backgroundColor: Utilities.color.light.antiquewhite,
+    },
+    circle: {
+        opacity: 0.8,
+        width: 100,
+        height: 100,
+        backgroundColor: Utilities.color.light.antiquewhite,
+        borderRadius: 50,
+    },
+    circleOne: {
+        position: 'absolute',
+        top: -20,
+        left: -10,
+        zIndex: 2,
+    },
+    circleTwo: {
+        position: 'absolute',
+        top: 20,
+        left: -60,
+    },
+
+    /**
+     * BONJOUR
+     */
     bonjour: {
-        zIndex: 1,
+        position: 'absolute',
+        zIndex: 2,
         top: 40,
         left: 20,
         fontSize: 95,
-        color: Color.antiquewhite,
+        color: Utilities.color.light.antiquewhite,
         textShadowColor: 'rgba(0, 0, 0, 0.25)',
         textShadowOffset: {
             width: 0,
             height: 4,
         },
         textShadowRadius: 4,
-        fontFamily: FontFamily.urbanistRegular,
-        position: 'absolute',
+        fontFamily: Utilities.font.family.urbanist.regular,
     },
-    screen2Child: {
-        zIndex2: 2,
+
+    /**
+     * FORMULAIRE
+     */
+    formContainer: {
+        backgroundColor: Utilities.color.light.green,
+        position: 'absolute',
+        zIndex: 1,
         top: 150,
         left: 20,
-        borderRadius: Border.br_3xs,
-        backgroundColor: Color.cadetblue_100,
         width: '90%',
-        position: 'absolute',
+        paddingHorizontal: 20,
+        paddingTop: 50,
+        paddingBottom: 25,
+        borderRadius: Utilities.border.sm,
     },
     welcomeSentence: {
-        color: Color.antiquewhite,
+        color: Utilities.color.light.antiquewhite,
         textAlign: 'center',
+        fontSize: Utilities.font.size.md,
+    },
+    form: {
         marginTop: '10%',
-        fontSize: FontSize.size_xl,
+        marginBottom: '10%',
     },
-    welcomeSentence2: {
-        color: Color.antiquewhite,
-        textAlign: 'center',
-        marginBottom: '5%',
-        fontSize: FontSize.size_xl,
+
+    /**
+     * BUTTON
+     */
+    btn: {
+        width: '65%',
+        alignSelf: 'center',
+        backgroundColor: Utilities.color.dark.green,
+        paddingHorizontal: 40,
+        paddingVertical: 15,
+        marginTop: '10%',
+        borderRadius: Utilities.border.sm,
     },
-    registerButton: {
-        borderRadius: Border.br_xl,
-        backgroundColor: Color.lightgray,
-        color: Color.dimgray,
-        marginTop: '5%',
-        width: '100%',
-        height: 53,
+    btnText: {
+        color: Utilities.color.light.antiquewhite,
+        textTransform: 'uppercase',
+        fontWeight: 'bold',
     },
-    FirstPart: {
-        color: Color.gray_500,
-        fontFamily: FontFamily.interMedium,
-        fontWeight: '500',
-    },
-    SecondPart: {
-        color: Color.gray_800,
-    },
-    seConnecterTypo: {
-        fontFamily: FontFamily.interBold,
-        fontWeight: '700',
-    },
-    senregistrer1: {
-        fontSize: FontSize.titlePoppinsMedium_size,
-        color: Color.dimgray,
-        marginTop: '6%',
-        textAlign: 'center',
-        fontWeight: '700',
-    },
-    text: {
-        width: '100%',
-        height: 22,
-        fontSize: FontSize.bodyMedium_size,
-    },
-    ToSignUpContainer: {
-        bottom: '-8%',
-        left: '22%',
+
+    /**
+     *
+     */
+    ToSignInScreenContainer: {
+        width: '80%',
+        alignSelf: 'center',
         position: 'absolute',
+        bottom: 30,
     },
+    textContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    textDark: {
+        fontSize: 16,
+        color: Utilities.color.black,
+    },
+    textWhite: {
+        fontSize: 16,
+        color: Utilities.color.dark.green,
+        backgroundColor: Utilities.color.light.grey,
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        borderRadius: Utilities.border.md,
+    },
+
+    /**
+     * MODAL
+     */
     modalContainer: {
         flex: 1,
         justifyContent: 'center',
         paddingHorizontal: '10%',
-        backgroundColor: 'rgba(0,0,0,0.8)',
+        backgroundColor: 'rgba(0,0,0,0.7)',
     },
     modalTitle: {
-        backgroundColor: 'rgb(169,0,0)',
+        backgroundColor: Utilities.color.light.red,
         alignItems: 'flex-start',
         paddingVertical: 10,
         paddingHorizontal: 20,
-        borderTopStartRadius: 5,
-        borderTopEndRadius: 5,
+        borderTopStartRadius: Utilities.border.sm,
+        borderTopEndRadius: Utilities.border.sm,
     },
     modalTitleText: {
-        fontSize: 18,
+        fontSize: Utilities.font.size.md,
         fontWeight: 'bold',
-        color: Color.antiquewhite,
+        color: Utilities.color.light.antiquewhite,
     },
     modalContent: {
-        backgroundColor: Color.antiquewhite,
+        backgroundColor: Utilities.color.light.antiquewhite,
     },
     modalContentText: {
-        backgroundColor: Color.antiquewhite,
-        color: Color.black,
-        paddingVertical: 20,
-        paddingHorizontal: 10,
+        backgroundColor: Utilities.color.light.antiquewhite,
+        color: Utilities.color.black,
+        fontSize: Utilities.font.size.sm,
+        paddingVertical: 25,
+        paddingHorizontal: 12.5,
         fontWeight: 'bold',
     },
     modalClose: {
-        backgroundColor: Color.gray_100,
+        backgroundColor: Utilities.color.light.grey,
         padding: 10,
         alignItems: 'flex-end',
-        justifyContent: 'center',
-        textTransform: 'uppercase',
     },
     modalCloseText: {
-        color: Color.antiquewhite,
+        backgroundColor: Utilities.color.black,
+        color: Utilities.color.light.antiquewhite,
+        paddingVertical: 5,
+        paddingHorizontal: 15,
+        borderRadius: Utilities.border.sm,
         textTransform: 'uppercase',
     },
 });
