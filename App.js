@@ -16,7 +16,12 @@ import ProfileScreen from './screens/ProfileScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import EditInformationScreen from './screens/EditInformationScreen';
 import ContactScreen from './screens/ContactScreen';
-import FaceIDScreen from './screens/FaceIDScreen';
+import DetectePhotoFaceScreen from './screens/DetectePhotoFaceScreen';
+import DetectePhotoLeftProfileScreen from './screens/DetectePhotoLeftProfileScreen';
+import DetectePhotoRightProfileScreen from './screens/DetectePhotoRightProfileScreen';
+import DetectePhotoStatusScreen from './screens/DetectePhotoStatusScreen';
+
+DetectePhotoStatusScreen;
 
 function OpeningScreen({ navigation }) {
     return (
@@ -72,7 +77,10 @@ export default function App() {
                 <Stack.Screen name="EditInformationScreen" component={EditInformationScreen} />
                 <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
                 <Stack.Screen name="ContactScreen" component={ContactScreen} />
-                <Stack.Screen name="FaceIDScreen" component={FaceIDScreen} />
+                <Stack.Screen name="DetectePhotoFaceScreen" component={DetectePhotoFaceScreen} />
+                <Stack.Screen name="DetectePhotoLeftProfileScreen" component={DetectePhotoLeftProfileScreen} />
+                <Stack.Screen name="DetectePhotoRightProfileScreen" component={DetectePhotoRightProfileScreen} />
+                <Stack.Screen name="DetectePhotoStatusScreen" component={DetectePhotoStatusScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );

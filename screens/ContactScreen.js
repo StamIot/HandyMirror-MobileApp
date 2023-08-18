@@ -5,7 +5,6 @@ import { StyleSheet, View, Text, Pressable, TextInput, ScrollView, Modal } from 
 import { useNavigation } from '@react-navigation/native';
 
 // Utilitaires
-import { Color, FontFamily } from '../GlobalStyles';
 import * as Utilities from '../src/utilities/utilities';
 
 const ContactScreen = () => {
@@ -25,7 +24,7 @@ const ContactScreen = () => {
             <View style={styles.titleContainer}>
                 <Pressable style={styles.goBack} onPress={() => navigation.goBack()}>
                     <View style={styles.iconContainer}>
-                        <Entypo name="arrow-with-circle-left" size={64} color={Color.dimgray} />
+                        <Entypo name="arrow-with-circle-left" size={64} color={Utilities.color.dark.green} />
                     </View>
                 </Pressable>
                 <View>

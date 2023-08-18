@@ -64,7 +64,7 @@ const SettingsScreen = () => {
                 <View style={[styles.whiteContainer, styles.containerTwoElements]}>
                     <Pressable
                         onPress={() => {
-                            navigation.navigate('FaceIDScreen');
+                            navigation.navigate('DetectePhotoStatusScreen');
                         }}
                     >
                         <View style={styles.item}>

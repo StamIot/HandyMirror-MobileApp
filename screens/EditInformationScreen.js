@@ -10,7 +10,6 @@ import * as ImagePicker from 'expo-image-picker';
 import Config from '../config/config';
 
 // Utilitaires
-import { Color } from '../GlobalStyles';
 import * as Utilities from '../src/utilities/utilities';
 
 const EditInformationScreen = () => {
@@ -105,7 +104,7 @@ const EditInformationScreen = () => {
                 <View style={styles.titleContainer}>
                     <Pressable style={styles.goBack} onPress={() => navigation.goBack({ refresh: true })}>
                         <View style={styles.iconContainer}>
-                            <Entypo name="arrow-with-circle-left" size={64} color={Color.dimgray} />
+                            <Entypo name="arrow-with-circle-left" size={64} color={Utilities.color.dark.green} />
                         </View>
                     </Pressable>
                     <Pressable style={styles.goBack} onPress={onPressPickerHandler}>
@@ -315,7 +314,7 @@ const styles = StyleSheet.create({
         marginRight: 50,
     },
     photoCircleText: {
-        backgroundColor: Color.antiquewhite,
+        backgroundColor: Utilities.color.light.antiquewhite,
         textAlign: 'center',
         textAlignVertical: 'center',
         height: '100%',
