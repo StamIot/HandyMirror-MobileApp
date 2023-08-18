@@ -1,130 +1,127 @@
 // Dépendances
-import { StyleSheet, View, Text, Pressable, TextInput } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
-import {
-    Entypo,
-    AntDesign,
-    Ionicons,
-    MaterialCommunityIcons,
-    Feather,
-} from '@expo/vector-icons'
-import { useState } from 'react'
+import { useState } from 'react';
+import { Entypo } from '@expo/vector-icons';
+import { StyleSheet, View, Text, Pressable, TextInput, ScrollView, Modal } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-// Styles
-import { Color, FontFamily } from '../GlobalStyles'
+// Utilitaires
+import * as Utilities from '../src/utilities/utilities';
 
 const ContactScreen = () => {
-    const navigation = useNavigation()
-    const [value, onChangeText] = useState('')
+    const navigation = useNavigation();
+    const [value, onChangeText] = useState('');
+    const [infoModalVisible, setInfoModalVisible] = useState(false);
 
     return (
-        <>
-            {/* SCREEN N°7 */}
-            <View style={styles.screen7}>
-                {/* CERCLES */}
-                <View style={styles.circlesContainer}>
-                    <View style={[styles.circle, styles.circleOne]}></View>
-                    <View style={[styles.circle, styles.circleTwo]}></View>
-                </View>
+        <ScrollView style={styles.ContactScreenContainer}>
+            {/* CERCLES */}
+            <View style={styles.circlesContainer}>
+                <View style={[styles.circle, styles.circleOne]}></View>
+                <View style={[styles.circle, styles.circleTwo]}></View>
+            </View>
 
-                {/* Contactez-nous */}
-                <View style={styles.titleContainer}>
-                    <Pressable
-                        style={styles.goBack}
-                        onPress={() => navigation.goBack()}
-                    >
-                        <View style={styles.iconContainer}>
-                            <Entypo
-                                name="arrow-with-circle-left"
-                                size={64}
-                                color={Color.dimgray}
-                            />
-                        </View>
-                    </Pressable>
-                    <View>
-                        <Text style={styles.title}>{'Contactez'}</Text>
-                        <Text style={styles.title}>{'Nous'}</Text>
+            {/* Contactez-nous */}
+            <View style={styles.titleContainer}>
+                <Pressable style={styles.goBack} onPress={() => navigation.goBack()}>
+                    <View style={styles.iconContainer}>
+                        <Entypo name="arrow-with-circle-left" size={64} color={Utilities.color.dark.green} />
                     </View>
-                </View>
-
-                {/* Options */}
-                <View style={styles.contactContainer}>
-                    <Text style={styles.textContainer}>
-                        Posez nous vos questions, nous vous répondrons sous peu.
-                    </Text>
-
-                    {/* Nom */}
-                    <TextInput
-                        style={styles.textOneLine}
-                        placeholder="Nom: exemple 'patrick'"
-                    />
-
-                    {/* Email */}
-                    <TextInput
-                        style={styles.textOneLine}
-                        placeholder="Email: ex 'patpat@gmail.com'"
-                    />
-
-                    {/* Message */}
-                    <TextInput
-                        editable
-                        multiline
-                        numberOfLines={4}
-                        maxLength={40}
-                        onChangeText={(text) => onChangeText(text)}
-                        value={value}
-                        placeholder="Racontez nous votre histoire ou posez nous une question."
-                        style={[styles.textOneLine, styles.textMultiLines]}
-                    />
-
-                    {/* BTN */}
-                    <Pressable
-                        style={styles.btnLogin}
-                        onPress={() => navigation.navigate('CustomizeScreen')}
-                    >
-                        <Text style={styles.btnLoginColor}>Envoyer</Text>
-                    </Pressable>
+                </Pressable>
+                <View>
+                    <Text style={styles.title}>{'Contactez'}</Text>
+                    <Text style={styles.title}>{'Nous'}</Text>
                 </View>
             </View>
-        </>
-    )
-}
 
+            {/* Options */}
+            <View style={styles.contactContainer}>
+                <Text style={styles.textContainer}>Posez nous vos questions, nous vous répondrons sous peu.</Text>
+
+                {/* Nom */}
+                <TextInput style={styles.textOneLine} placeholder="Nom: exemple 'patrick'" />
+
+                {/* Email */}
+                <TextInput style={styles.textOneLine} placeholder="Email: ex 'patpat@gmail.com'" />
+
+                {/* Message */}
+                <TextInput
+                    editable
+                    multiline={true}
+                    numberOfLines={4}
+                    onChangeText={(text) => onChangeText(text)}
+                    value={value}
+                    placeholder="Racontez nous votre histoire ou posez nous une question."
+                    style={[styles.textOneLine, styles.textMultiLines]}
+                />
+
+                {/* BTN */}
+                <Pressable style={styles.btn} onPress={() => setInfoModalVisible(true)}>
+                    <Text style={styles.btnText}>Envoyer</Text>
+                </Pressable>
+
+                {/* Modal Informative */}
+                <Modal visible={infoModalVisible} animationType="slide" transparent>
+                    <View style={styles.modalContainer}>
+                        <View style={styles.modalTitle}>
+                            <Text style={styles.modalTitleText}>Information</Text>
+                        </View>
+                        <View style={styles.modalContentText}>
+                            <Text style={styles.modalContentText}>Désolé, cette feature est à développer..</Text>
+                        </View>
+                        <View style={styles.modalClose}>
+                            <Pressable onPress={() => setInfoModalVisible(false)}>
+                                <Text style={styles.modalCloseText}>Fermer</Text>
+                            </Pressable>
+                        </View>
+                    </View>
+                </Modal>
+            </View>
+        </ScrollView>
+    );
+};
+
+// Styles
 const styles = StyleSheet.create({
-    screen7: {
+    ContactScreenContainer: {
         flex: 1,
-        backgroundColor: Color.dimgray,
+        backgroundColor: Utilities.color.dark.green,
     },
+
+    /**
+     * CIRCLES
+     */
     circlesContainer: {
-        flex: 0.1,
+        backgroundColor: Utilities.color.light.antiquewhite,
     },
     circle: {
         opacity: 0.8,
-        width: 75,
-        height: 75,
-        backgroundColor: Color.antiquewhite,
+        width: 100,
+        height: 100,
+        backgroundColor: Utilities.color.light.antiquewhite,
         borderRadius: 50,
     },
     circleOne: {
         position: 'absolute',
-        top: -10,
-        left: 0,
+        top: -20,
+        left: -10,
+        zIndex: 2,
     },
     circleTwo: {
         position: 'absolute',
-        top: '35%',
-        left: -35,
+        top: 20,
+        left: -60,
     },
+
     titleContainer: {
-        flex: 0.2,
+        marginTop: 100,
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
     },
     title: {
-        fontFamily: FontFamily.urbanistRegular,
+        fontFamily: 'Roboto',
         fontSize: 40,
-        color: Color.antiquewhite,
+        color: Utilities.color.light.antiquewhite,
         textAlign: 'center',
         marginRight: 40,
     },
@@ -135,49 +132,103 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     iconContainer: {
-        backgroundColor: Color.gray_600,
+        backgroundColor: Utilities.color.light.grey,
         padding: 5,
         borderRadius: 50,
     },
     contactContainer: {
-        flex: 0.7,
-        margin: 40,
+        margin: 20,
     },
     textContainer: {
-        color: Color.antiquewhite,
+        color: Utilities.color.light.antiquewhite,
         paddingBottom: 25,
     },
     textOneLine: {
-        backgroundColor: Color.dimgrayLigth,
-        paddingVertical: 20,
-        paddingHorizontal: 10,
+        backgroundColor: Utilities.color.light.antiquewhite,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
         borderRadius: 8,
         fontSize: 16,
         fontStyle: 'italic',
         marginBottom: 25,
     },
     textMultiLines: {
-        backgroundColor: Color.dimgrayLigth,
-        paddingVertical: 20,
-        paddingHorizontal: 10,
+        backgroundColor: Utilities.color.light.antiquewhite,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
         borderRadius: 8,
         fontSize: 16,
         fontStyle: 'italic',
         marginBottom: 25,
-        flex: 2,
-    },
-    btnLogin: {
-        backgroundColor: Color.antiquewhite,
+        height: 250,
         width: '100%',
-        padding: 24,
-        borderRadius: 8,
     },
-    btnLoginColor: {
-        color: Color.dimgray,
-        fontWeight: '700',
-        textAlign: 'center',
+
+    /**
+     * BUTTON
+     */
+    btn: {
+        width: '80%',
+        alignSelf: 'center',
+        alignItems: 'center',
+        backgroundColor: Utilities.color.light.grey,
+        paddingHorizontal: 15,
+        paddingVertical: 15,
+        marginTop: '2%',
+        borderRadius: Utilities.border.sm,
+    },
+    btnText: {
+        color: Utilities.color.black,
+        textTransform: 'uppercase',
+        fontWeight: 'bold',
+    },
+
+    /**
+     * MODAL
+     */
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        paddingHorizontal: '10%',
+        backgroundColor: 'rgba(0,0,0,0.7)',
+    },
+    modalTitle: {
+        backgroundColor: Utilities.color.light.blue,
+        alignItems: 'flex-start',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderTopStartRadius: Utilities.border.sm,
+        borderTopEndRadius: Utilities.border.sm,
+    },
+    modalTitleText: {
+        fontSize: Utilities.font.size.md,
+        fontWeight: 'bold',
+        color: Utilities.color.light.antiquewhite,
+    },
+    modalContent: {
+        backgroundColor: Utilities.color.light.antiquewhite,
+    },
+    modalContentText: {
+        backgroundColor: Utilities.color.light.antiquewhite,
+        color: Utilities.color.black,
+        fontSize: Utilities.font.size.sm,
+        paddingVertical: 25,
+        paddingHorizontal: 12.5,
+        fontWeight: 'bold',
+    },
+    modalClose: {
+        backgroundColor: Utilities.color.light.grey,
+        padding: 10,
+        alignItems: 'flex-end',
+    },
+    modalCloseText: {
+        backgroundColor: Utilities.color.black,
+        color: Utilities.color.light.antiquewhite,
+        paddingVertical: 5,
+        paddingHorizontal: 15,
+        borderRadius: Utilities.border.sm,
         textTransform: 'uppercase',
     },
-})
+});
 
-export default ContactScreen
+export default ContactScreen;
