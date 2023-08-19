@@ -1,11 +1,17 @@
 // Dépendances
 import { StyleSheet, View, Text, Pressable, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Entypo, AntDesign, Ionicons, MaterialCommunityIcons, Feather } from '@expo/vector-icons';
+import {
+    Entypo,
+    AntDesign,
+    Ionicons,
+    MaterialCommunityIcons,
+    Feather,
+} from '@expo/vector-icons';
 import { useState } from 'react';
 
 // Utilitaire
-import * as Utilities from '../src/utilities/utilities';
+import Tools from '../utilities/Tools'; // charge index.js
 
 const SettingsScreen = () => {
     const navigation = useNavigation();
@@ -24,9 +30,16 @@ const SettingsScreen = () => {
 
             {/* Réglages */}
             <View style={styles.titleContainer}>
-                <Pressable style={styles.goBack} onPress={() => navigation.goBack()}>
+                <Pressable
+                    style={styles.goBack}
+                    onPress={() => navigation.goBack()}
+                >
                     <View style={styles.iconContainer}>
-                        <Entypo name="arrow-with-circle-left" size={64} color={Utilities.color.dark.green} />
+                        <Entypo
+                            name="arrow-with-circle-left"
+                            size={64}
+                            color={Tools.color.dark.green}
+                        />
                     </View>
                 </Pressable>
                 <Text style={styles.title}>{'Réglages'}</Text>
@@ -35,10 +48,21 @@ const SettingsScreen = () => {
             {/* Options */}
             <View style={styles.optionsContainer}>
                 {/* PARTIE 1 */}
-                <View style={[styles.whiteContainer, styles.containerTwoElements]}>
-                    <Pressable onPress={() => navigation.navigate('EditInformationScreen')}>
+                <View
+                    style={[styles.whiteContainer, styles.containerTwoElements]}
+                >
+                    <Pressable
+                        onPress={() =>
+                            navigation.navigate('EditInformationScreen')
+                        }
+                    >
                         <View style={styles.item}>
-                            <AntDesign name="idcard" size={24} color={Utilities.color.dark.green} style={styles.itemIcon} />
+                            <AntDesign
+                                name="idcard"
+                                size={24}
+                                color={Tools.color.dark.green}
+                                style={styles.itemIcon}
+                            />
                             <Text>Changer les informations du profil</Text>
                         </View>
                     </Pressable>
@@ -51,24 +75,38 @@ const SettingsScreen = () => {
                         }}
                     >
                         <View style={styles.item}>
-                            <Ionicons name="notifications-outline" size={24} color={Utilities.color.dark.green} style={styles.itemIcon} />
+                            <Ionicons
+                                name="notifications-outline"
+                                size={24}
+                                color={Tools.color.dark.green}
+                                style={styles.itemIcon}
+                            />
                             <View style={styles.itemThreeElements}>
                                 <Text>Notification</Text>
-                                <Text style={styles.textChange}>{onNotification == true ? 'on' : 'off'}</Text>
+                                <Text style={styles.textChange}>
+                                    {onNotification == true ? 'on' : 'off'}
+                                </Text>
                             </View>
                         </View>
                     </Pressable>
                 </View>
 
                 {/* PARTIE 2 */}
-                <View style={[styles.whiteContainer, styles.containerTwoElements]}>
+                <View
+                    style={[styles.whiteContainer, styles.containerTwoElements]}
+                >
                     <Pressable
                         onPress={() => {
                             navigation.navigate('DetectePhotoStatusScreen');
                         }}
                     >
                         <View style={styles.item}>
-                            <MaterialCommunityIcons name="face-recognition" size={24} color={Utilities.color.dark.green} style={styles.itemIcon} />
+                            <MaterialCommunityIcons
+                                name="face-recognition"
+                                size={24}
+                                color={Tools.color.dark.green}
+                                style={styles.itemIcon}
+                            />
                             <Text>Reconnaissance faciale</Text>
                         </View>
                     </Pressable>
@@ -80,38 +118,72 @@ const SettingsScreen = () => {
                         }}
                     >
                         <View style={styles.item}>
-                            <MaterialCommunityIcons name="theme-light-dark" size={24} color={Utilities.color.dark.green} style={styles.itemIcon} />
+                            <MaterialCommunityIcons
+                                name="theme-light-dark"
+                                size={24}
+                                color={Tools.color.dark.green}
+                                style={styles.itemIcon}
+                            />
                             <View style={styles.itemThreeElements}>
                                 <Text>Thème</Text>
-                                <Text style={styles.textChange}>{lightMode == true ? 'Light Mode' : 'Dark Mode'}</Text>
+                                <Text style={styles.textChange}>
+                                    {lightMode == true
+                                        ? 'Light Mode'
+                                        : 'Dark Mode'}
+                                </Text>
                             </View>
                         </View>
                     </Pressable>
                 </View>
 
                 {/* PARTIE 3 */}
-                <View style={[styles.whiteContainer, styles.containerThreeElements]}>
+                <View
+                    style={[
+                        styles.whiteContainer,
+                        styles.containerThreeElements,
+                    ]}
+                >
                     <Pressable
                         onPress={() => {
-                            navigation.navigate('HelpScreen'), setInfoModalVisible(true);
+                            navigation.navigate('HelpScreen'),
+                                setInfoModalVisible(true);
                         }}
                     >
                         <View style={styles.item}>
-                            <Feather name="help-circle" size={24} color={Utilities.color.dark.green} style={styles.itemIcon} />
+                            <Feather
+                                name="help-circle"
+                                size={24}
+                                color={Tools.color.dark.green}
+                                style={styles.itemIcon}
+                            />
                             <Text>Help & Support</Text>
                         </View>
                     </Pressable>
 
-                    <Pressable onPress={() => navigation.navigate('ContactScreen')}>
+                    <Pressable
+                        onPress={() => navigation.navigate('ContactScreen')}
+                    >
                         <View style={styles.item}>
-                            <AntDesign name="contacts" size={24} color={Utilities.color.dark.green} style={styles.itemIcon} />
+                            <AntDesign
+                                name="contacts"
+                                size={24}
+                                color={Tools.color.dark.green}
+                                style={styles.itemIcon}
+                            />
                             <Text>Contactez-nous</Text>
                         </View>
                     </Pressable>
 
-                    <Pressable onPress={() => navigation.navigate('RGPDScreen')}>
+                    <Pressable
+                        onPress={() => navigation.navigate('RGPDScreen')}
+                    >
                         <View style={styles.item}>
-                            <AntDesign name="lock1" size={24} color={Utilities.color.dark.green} style={styles.itemIcon} />
+                            <AntDesign
+                                name="lock1"
+                                size={24}
+                                color={Tools.color.dark.green}
+                                style={styles.itemIcon}
+                            />
                             <Text>RGPD</Text>
                         </View>
                     </Pressable>
@@ -125,7 +197,9 @@ const SettingsScreen = () => {
                         <Text style={styles.modalTitleText}>Information</Text>
                     </View>
                     <View style={styles.modalContentText}>
-                        <Text style={styles.modalContentText}>Désolé, cette feature est à développer..</Text>
+                        <Text style={styles.modalContentText}>
+                            Désolé, cette feature est à développer..
+                        </Text>
                     </View>
                     <View style={styles.modalClose}>
                         <Pressable onPress={() => setInfoModalVisible(false)}>
@@ -141,20 +215,20 @@ const SettingsScreen = () => {
 const styles = StyleSheet.create({
     SettingsScreenContainer: {
         flex: 1,
-        backgroundColor: Utilities.color.dark.green,
+        backgroundColor: Tools.color.dark.green,
     },
 
     /**
      * CIRCLES
      */
     circlesContainer: {
-        backgroundColor: Utilities.color.light.antiquewhite,
+        backgroundColor: Tools.color.light.antiquewhite,
     },
     circle: {
         opacity: 0.8,
         width: 100,
         height: 100,
-        backgroundColor: Utilities.color.light.antiquewhite,
+        backgroundColor: Tools.color.light.antiquewhite,
         borderRadius: 50,
     },
     circleOne: {
@@ -178,7 +252,7 @@ const styles = StyleSheet.create({
     title: {
         fontFamily: 'Roboto',
         fontSize: 50,
-        color: Utilities.color.light.antiquewhite,
+        color: Tools.color.light.antiquewhite,
     },
     goBack: {
         height: 80,
@@ -187,7 +261,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     iconContainer: {
-        backgroundColor: Utilities.color.light.grey,
+        backgroundColor: Tools.color.light.grey,
         padding: 5,
         borderRadius: 50,
     },
@@ -196,10 +270,10 @@ const styles = StyleSheet.create({
     },
 
     whiteContainer: {
-        backgroundColor: Utilities.color.light.antiquewhite,
+        backgroundColor: Tools.color.light.antiquewhite,
         width: '100%',
         marginVertical: 25,
-        borderRadius: Utilities.border.sm,
+        borderRadius: Tools.border.size.sm,
         padding: 25,
     },
     containerTwoElements: {
@@ -224,7 +298,7 @@ const styles = StyleSheet.create({
         width: '90%',
     },
     textChange: {
-        color: Utilities.color.dark.green,
+        color: Tools.color.dark.green,
         fontWeight: '700',
         textTransform: 'uppercase',
         fontSize: 18,
@@ -240,40 +314,40 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0,0.7)',
     },
     modalTitle: {
-        backgroundColor: Utilities.color.light.blue,
+        backgroundColor: Tools.color.light.blue,
         alignItems: 'flex-start',
         paddingVertical: 10,
         paddingHorizontal: 20,
-        borderTopStartRadius: Utilities.border.sm,
-        borderTopEndRadius: Utilities.border.sm,
+        borderTopStartRadius: Tools.border.size.sm,
+        borderTopEndRadius: Tools.border.size.sm,
     },
     modalTitleText: {
-        fontSize: Utilities.font.size.md,
+        fontSize: Tools.font.size.md,
         fontWeight: 'bold',
-        color: Utilities.color.light.antiquewhite,
+        color: Tools.color.light.antiquewhite,
     },
     modalContent: {
-        backgroundColor: Utilities.color.light.antiquewhite,
+        backgroundColor: Tools.color.light.antiquewhite,
     },
     modalContentText: {
-        backgroundColor: Utilities.color.light.antiquewhite,
-        color: Utilities.color.black,
-        fontSize: Utilities.font.size.sm,
+        backgroundColor: Tools.color.light.antiquewhite,
+        color: Tools.color.black,
+        fontSize: Tools.font.size.sm,
         paddingVertical: 25,
         paddingHorizontal: 12.5,
         fontWeight: 'bold',
     },
     modalClose: {
-        backgroundColor: Utilities.color.light.grey,
+        backgroundColor: Tools.color.light.grey,
         padding: 10,
         alignItems: 'flex-end',
     },
     modalCloseText: {
-        backgroundColor: Utilities.color.black,
-        color: Utilities.color.light.antiquewhite,
+        backgroundColor: Tools.color.black,
+        color: Tools.color.light.antiquewhite,
         paddingVertical: 5,
         paddingHorizontal: 15,
-        borderRadius: Utilities.border.sm,
+        borderRadius: Tools.border.size.sm,
         textTransform: 'uppercase',
     },
 });

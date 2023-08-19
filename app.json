@@ -1,7 +1,7 @@
 {
     "expo": {
-        "name": "HandiMirrorApp",
-        "slug": "HandiMirrorApp",
+        "name": "HandyMirror-MobileApp",
+        "slug": "HandyMirror-MobileApp",
         "version": "1.0.0",
         "orientation": "portrait",
         "icon": "./assets/images/icon.png",
@@ -19,16 +19,26 @@
             "adaptiveIcon": {
                 "foregroundImage": "./assets/images/adaptive-icon.png",
                 "backgroundColor": "#ffffff"
-            }
+            },
+            "permissions": [
+                "android.permission.RECORD_AUDIO" /* "android.permission.CAMERA", "android.permission.CAMERA_ROLL" */
+            ],
+            "package": "com.handysolution.handymirrorapp"
         },
         "web": {
             "favicon": "./assets/images/favicon.png"
         },
         "plugins": [
+            // [
+            //     "expo-camera",
+            //     {
+            //         "cameraPermission": "Acceptez-vous $(PRODUCT_NAME) a accèder à votre caméra de pouvoir stocker votre photo pour accéder à la reconnaissance du miroir magique."
+            //     }
+            // ],
             [
                 "expo-image-picker",
                 {
-                    "photoPermission": "L'application accède à vos photos afin de définir une image de profile"
+                    "photoPermission": "Acceptez-vous $(PRODUCT_NAME) a accèder à vos photos afin de définir une image de profile"
                 }
             ]
         ]

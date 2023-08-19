@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 
 // Utilitaire
-import * as Utilities from '../src/utilities/utilities';
+import Tools from '../utilities/Tools'; // charge index.js
 
 const DetectePhotoStatusScreen = () => {
     const navigation = useNavigation();
@@ -19,9 +19,16 @@ const DetectePhotoStatusScreen = () => {
 
             {/* FaceID */}
             <View style={styles.titleContainer}>
-                <Pressable style={styles.goBack} onPress={() => navigation.goBack()}>
+                <Pressable
+                    style={styles.goBack}
+                    onPress={() => navigation.goBack()}
+                >
                     <View style={styles.iconContainer}>
-                        <Entypo name="arrow-with-circle-left" size={64} color={Utilities.color.dark.green} />
+                        <Entypo
+                            name="arrow-with-circle-left"
+                            size={64}
+                            color={Tools.color.dark.green}
+                        />
                     </View>
                 </Pressable>
                 <Text style={styles.title}>Statut Photo</Text>
@@ -29,22 +36,64 @@ const DetectePhotoStatusScreen = () => {
 
             {/* Options */}
             <View style={styles.faceIDContainer}>
-                <Text style={{ color: Utilities.color.light.antiquewhite, marginBottom: '20%' }}>Vous trouverez ci-dessous un ensemble de photo prise qui seront analysé par votre miroir afin de vous détecter.</Text>
+                <Text
+                    style={{
+                        color: Tools.color.light.antiquewhite,
+                        marginBottom: '20%',
+                    }}
+                >
+                    Vous trouverez ci-dessous un ensemble de photo prise qui
+                    seront analysé par votre miroir afin de vous détecter.
+                </Text>
 
                 {/* DETECTION */}
                 <View style={styles.bgcDetection}>
-                    <Text style={{ color: Utilities.color.light.antiquewhite, marginBottom: '10%', alignSelf: 'center' }}>IMAGE 1 à éditer</Text>
-                    <Text style={{ color: Utilities.color.light.antiquewhite, marginBottom: '10%', alignSelf: 'center' }}>IMAGE 2 à éditer</Text>
-                    <Text style={{ color: Utilities.color.light.antiquewhite, marginBottom: '10%', alignSelf: 'center' }}>IMAGE 3 à éditer</Text>
+                    <Text
+                        style={{
+                            color: Tools.color.light.green,
+                            marginBottom: '10%',
+                            alignSelf: 'center',
+                        }}
+                    >
+                        IMAGE 1 à éditer
+                    </Text>
+                    <Text
+                        style={{
+                            color: Tools.color.light.green,
+                            marginBottom: '10%',
+                            alignSelf: 'center',
+                        }}
+                    >
+                        IMAGE 2 à éditer
+                    </Text>
+                    <Text
+                        style={{
+                            color: Tools.color.light.green,
+                            marginBottom: '10%',
+                            alignSelf: 'center',
+                        }}
+                    >
+                        IMAGE 3 à éditer
+                    </Text>
                 </View>
             </View>
 
             {/* BTN */}
             <View style={styles.btnContainer}>
-                <Pressable style={styles.btn} onPress={() => navigation.navigate('DetectePhotoFaceScreen')}>
+                <Pressable
+                    style={styles.btn}
+                    onPress={() =>
+                        navigation.navigate('DetectePhotoFaceScreen')
+                    }
+                >
                     <Text style={styles.btnText}>Démarrer</Text>
                 </Pressable>
-                <Pressable style={styles.btn} onPress={() => navigation.navigate('DetectePhotoFaceScreen')}>
+                <Pressable
+                    style={styles.btn}
+                    onPress={() =>
+                        navigation.navigate('DetectePhotoFaceScreen')
+                    }
+                >
                     <Text style={styles.btnText}>Recommencer</Text>
                 </Pressable>
             </View>
@@ -56,20 +105,20 @@ const DetectePhotoStatusScreen = () => {
 const styles = StyleSheet.create({
     DetectePhotoStatusScreenContainer: {
         flex: 1,
-        backgroundColor: Utilities.color.black,
+        backgroundColor: Tools.color.dark.green,
     },
 
     /**
      * CIRCLES
      */
     circlesContainer: {
-        backgroundColor: Utilities.color.light.antiquewhite,
+        backgroundColor: Tools.color.light.antiquewhite,
     },
     circle: {
         opacity: 0.8,
         width: 100,
         height: 100,
-        backgroundColor: Utilities.color.light.antiquewhite,
+        backgroundColor: Tools.color.light.antiquewhite,
         borderRadius: 50,
     },
     circleOne: {
@@ -93,7 +142,7 @@ const styles = StyleSheet.create({
     title: {
         fontFamily: 'Urbanist Medium',
         fontSize: 35,
-        color: Utilities.color.light.antiquewhite,
+        color: Tools.color.light.antiquewhite,
         textAlign: 'center',
         marginRight: 40,
     },
@@ -104,7 +153,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     iconContainer: {
-        backgroundColor: Utilities.color.light.grey,
+        backgroundColor: Tools.color.light.grey,
         padding: 5,
         borderRadius: 50,
     },
@@ -116,12 +165,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     textContainer: {
-        color: Utilities.color.light.antiquewhite,
+        color: Tools.color.light.green,
         paddingBottom: 15,
         paddingHorizontal: 10,
     },
     bgcDetection: {
-        backgroundColor: Utilities.color.light.green,
+        backgroundColor: Tools.color.light.antiquewhite,
         alignSelf: 'center',
         alignItems: 'center',
         justifyContent: 'center',
@@ -142,15 +191,15 @@ const styles = StyleSheet.create({
     },
     btn: {
         flex: 0.4,
-        backgroundColor: Utilities.color.light.grey,
+        backgroundColor: Tools.color.light.grey,
         paddingHorizontal: 10,
         paddingVertical: 15,
         marginTop: '10%',
-        borderRadius: Utilities.border.sm,
+        borderRadius: Tools.border.size.sm,
         alignSelf: 'center',
     },
     btnText: {
-        color: Utilities.color.black,
+        color: Tools.color.black,
         textTransform: 'uppercase',
         fontWeight: 'bold',
         textAlign: 'center',

@@ -9,7 +9,7 @@ import axios from 'axios';
 // import AppLoading from 'expo-app-loading';
 
 // Utilitaire
-import * as Utilities from '../src/utilities/utilities';
+import Tools from '../tools'; // charge index.js
 
 // Screens
 import UserProfilePicture from '../Component/UserProfilePicture';
@@ -34,12 +34,16 @@ const HomeScreen = () => {
         setIsFirstConnection(false);
     };
 
-    const greetingMessage = isFirstConnection ? `Bonjour, ${userName} !` : `Rebonjour, ${userName} !`;
+    const greetingMessage = isFirstConnection
+        ? `Bonjour, ${userName} !`
+        : `Rebonjour, ${userName} !`;
 
     const getModules = async () => {
         try {
             console.log('ici');
-            const response = await axios.get('http://127.0.0.1:8080/api/module');
+            const response = await axios.get(
+                'http://127.0.0.1:8080/api/module',
+            );
             setModules(response.data);
         } catch (error) {
             console.log('la');
@@ -68,7 +72,11 @@ const HomeScreen = () => {
             <View style={styles.moduleContainer}>
                 <Text style={styles.moduleName}>{name}</Text>
                 <Text style={styles.moduleDescription}>{description}</Text>
-                <Switch style={styles.moduleSwitch} onValueChange={toggleSwitch} value={isEnabled} />
+                <Switch
+                    style={styles.moduleSwitch}
+                    onValueChange={toggleSwitch}
+                    value={isEnabled}
+                />
             </View>
         );
     };
@@ -80,10 +88,17 @@ const HomeScreen = () => {
                 <UserProfilePicture />
                 <Text style={styles.greeting}>{greetingMessage}</Text>
             </View>
-            <Text style={styles.welcomeSentence}>Que souhaitez vous laisser apparaître</Text>
+            <Text style={styles.welcomeSentence}>
+                Que souhaitez vous laisser apparaître
+            </Text>
             <Text style={styles.welcomeSentence2}>sur votre HandyMirror ?</Text>
             {modules.map((module, index) => (
-                <MagicMirrorModule key={index} name={module.name} description={module.description} enabled={module.enabled} />
+                <MagicMirrorModule
+                    key={index}
+                    name={module.name}
+                    description={module.description}
+                    enabled={module.enabled}
+                />
             ))}
         </View>
     );
@@ -91,7 +106,7 @@ const HomeScreen = () => {
 
 const styles = StyleSheet.create({
     background: {
-        backgroundColor: Utilities.color.dark.green,
+        backgroundColor: Tools.color.dark.green,
         flex: 1,
         width: '100%',
         height: '100%',
@@ -111,7 +126,7 @@ const styles = StyleSheet.create({
         marginTop: '20%',
         marginLeft: '8%',
         flex: 0.2,
-        shadowColor: Utilities.color.black,
+        shadowColor: Tools.color.black,
         shadowOffset: {
             width: 0,
             height: 3,
@@ -123,22 +138,22 @@ const styles = StyleSheet.create({
     greeting: {
         top: '20%',
         left: '35%',
-        fontSize: Utilities.font.size.xl,
+        fontSize: Tools.font.size.xl,
         textAlign: 'left',
-        color: Utilities.color.light.antiquewhite,
+        color: Tools.color.light.antiquewhite,
         fontFamily: 'Urbanist ExtraBold',
         position: 'absolute',
     },
     welcomeSentence: {
-        color: Utilities.color.light.antiquewhite,
+        color: Tools.color.light.antiquewhite,
         textAlign: 'center',
-        fontSize: Utilities.font.size.xl,
+        fontSize: Tools.font.size.xl,
     },
     welcomeSentence2: {
-        color: Utilities.color.light.antiquewhite,
+        color: Tools.color.light.antiquewhite,
         textAlign: 'center',
         marginBottom: '10%',
-        fontSize: Utilities.font.size.xl,
+        fontSize: Tools.font.size.xl,
     },
     container: {
         flex: 1,
@@ -151,7 +166,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        backgroundColor: Utilities.color.white,
+        backgroundColor: Tools.color.white,
         borderRadius: 8,
         padding: 16,
         marginVertical: 8,

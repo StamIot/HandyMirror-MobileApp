@@ -1,11 +1,19 @@
 // Dépendances
 import { useState } from 'react';
 import { Entypo } from '@expo/vector-icons';
-import { StyleSheet, View, Text, Pressable, TextInput, ScrollView, Modal } from 'react-native';
+import {
+    StyleSheet,
+    View,
+    Text,
+    Pressable,
+    TextInput,
+    ScrollView,
+    Modal,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 // Utilitaires
-import * as Utilities from '../src/utilities/utilities';
+import Tools from '../utilities/Tools'; // charge index.js
 
 const ContactScreen = () => {
     const navigation = useNavigation();
@@ -22,9 +30,16 @@ const ContactScreen = () => {
 
             {/* Contactez-nous */}
             <View style={styles.titleContainer}>
-                <Pressable style={styles.goBack} onPress={() => navigation.goBack()}>
+                <Pressable
+                    style={styles.goBack}
+                    onPress={() => navigation.goBack()}
+                >
                     <View style={styles.iconContainer}>
-                        <Entypo name="arrow-with-circle-left" size={64} color={Utilities.color.dark.green} />
+                        <Entypo
+                            name="arrow-with-circle-left"
+                            size={64}
+                            color={Tools.color.dark.green}
+                        />
                     </View>
                 </Pressable>
                 <View>
@@ -35,13 +50,21 @@ const ContactScreen = () => {
 
             {/* Options */}
             <View style={styles.contactContainer}>
-                <Text style={styles.textContainer}>Posez nous vos questions, nous vous répondrons sous peu.</Text>
+                <Text style={styles.textContainer}>
+                    Posez nous vos questions, nous vous répondrons sous peu.
+                </Text>
 
                 {/* Nom */}
-                <TextInput style={styles.textOneLine} placeholder="Nom: exemple 'patrick'" />
+                <TextInput
+                    style={styles.textOneLine}
+                    placeholder="Nom: exemple 'patrick'"
+                />
 
                 {/* Email */}
-                <TextInput style={styles.textOneLine} placeholder="Email: ex 'patpat@gmail.com'" />
+                <TextInput
+                    style={styles.textOneLine}
+                    placeholder="Email: ex 'patpat@gmail.com'"
+                />
 
                 {/* Message */}
                 <TextInput
@@ -55,22 +78,37 @@ const ContactScreen = () => {
                 />
 
                 {/* BTN */}
-                <Pressable style={styles.btn} onPress={() => setInfoModalVisible(true)}>
+                <Pressable
+                    style={styles.btn}
+                    onPress={() => setInfoModalVisible(true)}
+                >
                     <Text style={styles.btnText}>Envoyer</Text>
                 </Pressable>
 
                 {/* Modal Informative */}
-                <Modal visible={infoModalVisible} animationType="slide" transparent>
+                <Modal
+                    visible={infoModalVisible}
+                    animationType="slide"
+                    transparent
+                >
                     <View style={styles.modalContainer}>
                         <View style={styles.modalTitle}>
-                            <Text style={styles.modalTitleText}>Information</Text>
+                            <Text style={styles.modalTitleText}>
+                                Information
+                            </Text>
                         </View>
                         <View style={styles.modalContentText}>
-                            <Text style={styles.modalContentText}>Désolé, cette feature est à développer..</Text>
+                            <Text style={styles.modalContentText}>
+                                Désolé, cette feature est à développer..
+                            </Text>
                         </View>
                         <View style={styles.modalClose}>
-                            <Pressable onPress={() => setInfoModalVisible(false)}>
-                                <Text style={styles.modalCloseText}>Fermer</Text>
+                            <Pressable
+                                onPress={() => setInfoModalVisible(false)}
+                            >
+                                <Text style={styles.modalCloseText}>
+                                    Fermer
+                                </Text>
                             </Pressable>
                         </View>
                     </View>
@@ -84,20 +122,20 @@ const ContactScreen = () => {
 const styles = StyleSheet.create({
     ContactScreenContainer: {
         flex: 1,
-        backgroundColor: Utilities.color.dark.green,
+        backgroundColor: Tools.color.dark.green,
     },
 
     /**
      * CIRCLES
      */
     circlesContainer: {
-        backgroundColor: Utilities.color.light.antiquewhite,
+        backgroundColor: Tools.color.light.antiquewhite,
     },
     circle: {
         opacity: 0.8,
         width: 100,
         height: 100,
-        backgroundColor: Utilities.color.light.antiquewhite,
+        backgroundColor: Tools.color.light.antiquewhite,
         borderRadius: 50,
     },
     circleOne: {
@@ -121,7 +159,7 @@ const styles = StyleSheet.create({
     title: {
         fontFamily: 'Roboto',
         fontSize: 40,
-        color: Utilities.color.light.antiquewhite,
+        color: Tools.color.light.antiquewhite,
         textAlign: 'center',
         marginRight: 40,
     },
@@ -132,7 +170,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     iconContainer: {
-        backgroundColor: Utilities.color.light.grey,
+        backgroundColor: Tools.color.light.grey,
         padding: 5,
         borderRadius: 50,
     },
@@ -140,11 +178,11 @@ const styles = StyleSheet.create({
         margin: 20,
     },
     textContainer: {
-        color: Utilities.color.light.antiquewhite,
+        color: Tools.color.light.antiquewhite,
         paddingBottom: 25,
     },
     textOneLine: {
-        backgroundColor: Utilities.color.light.antiquewhite,
+        backgroundColor: Tools.color.light.antiquewhite,
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 8,
@@ -153,7 +191,7 @@ const styles = StyleSheet.create({
         marginBottom: 25,
     },
     textMultiLines: {
-        backgroundColor: Utilities.color.light.antiquewhite,
+        backgroundColor: Tools.color.light.antiquewhite,
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 8,
@@ -171,14 +209,14 @@ const styles = StyleSheet.create({
         width: '80%',
         alignSelf: 'center',
         alignItems: 'center',
-        backgroundColor: Utilities.color.light.grey,
+        backgroundColor: Tools.color.light.grey,
         paddingHorizontal: 15,
         paddingVertical: 15,
         marginTop: '2%',
-        borderRadius: Utilities.border.sm,
+        borderRadius: Tools.border.size.sm,
     },
     btnText: {
-        color: Utilities.color.black,
+        color: Tools.color.black,
         textTransform: 'uppercase',
         fontWeight: 'bold',
     },
@@ -193,40 +231,40 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0,0.7)',
     },
     modalTitle: {
-        backgroundColor: Utilities.color.light.blue,
+        backgroundColor: Tools.color.light.blue,
         alignItems: 'flex-start',
         paddingVertical: 10,
         paddingHorizontal: 20,
-        borderTopStartRadius: Utilities.border.sm,
-        borderTopEndRadius: Utilities.border.sm,
+        borderTopStartRadius: Tools.border.size.sm,
+        borderTopEndRadius: Tools.border.size.sm,
     },
     modalTitleText: {
-        fontSize: Utilities.font.size.md,
+        fontSize: Tools.font.size.md,
         fontWeight: 'bold',
-        color: Utilities.color.light.antiquewhite,
+        color: Tools.color.light.antiquewhite,
     },
     modalContent: {
-        backgroundColor: Utilities.color.light.antiquewhite,
+        backgroundColor: Tools.color.light.antiquewhite,
     },
     modalContentText: {
-        backgroundColor: Utilities.color.light.antiquewhite,
-        color: Utilities.color.black,
-        fontSize: Utilities.font.size.sm,
+        backgroundColor: Tools.color.light.antiquewhite,
+        color: Tools.color.black,
+        fontSize: Tools.font.size.sm,
         paddingVertical: 25,
         paddingHorizontal: 12.5,
         fontWeight: 'bold',
     },
     modalClose: {
-        backgroundColor: Utilities.color.light.grey,
+        backgroundColor: Tools.color.light.grey,
         padding: 10,
         alignItems: 'flex-end',
     },
     modalCloseText: {
-        backgroundColor: Utilities.color.black,
-        color: Utilities.color.light.antiquewhite,
+        backgroundColor: Tools.color.black,
+        color: Tools.color.light.antiquewhite,
         paddingVertical: 5,
         paddingHorizontal: 15,
-        borderRadius: Utilities.border.sm,
+        borderRadius: Tools.border.size.sm,
         textTransform: 'uppercase',
     },
 });
