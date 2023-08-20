@@ -19,7 +19,7 @@ const SignUpScreen = () => {
         ipRN: configSingleton.getMyIPLocal(),
         portAPI: configSingleton.getPortAPI(),
     };
-
+  
     const navigation = useNavigation();
 
     const [firstname, setFirstname] = useState('');

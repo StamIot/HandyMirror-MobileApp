@@ -26,7 +26,7 @@ const ProfileScreen = ({ photoUri }) => {
         ipRN: configSingleton.getMyIPLocal(),
         portAPI: configSingleton.getPortAPI(),
     };
-
+  
     const navigation = useNavigation();
     const route = useRoute();
 

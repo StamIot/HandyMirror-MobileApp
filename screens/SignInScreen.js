@@ -21,6 +21,11 @@ import Tools from '../utilities/Tools'; // charge index.js
 import MyInputText from '../components/MyInputText';
 
 const SignInScreen = () => {
+    // Singleton (Configuration)
+    const Config = {
+        ipRN: configSingleton.getMyIPLocal(),
+        portAPI: configSingleton.getPortAPI(),
+    };
     const navigation = useNavigation();
 
     const [email, setEmail] = useState('');

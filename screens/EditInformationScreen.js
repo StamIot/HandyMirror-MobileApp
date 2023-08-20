@@ -29,7 +29,6 @@ const EditInformationScreen = () => {
         ipRN: configSingleton.getMyIPLocal(),
         portAPI: configSingleton.getPortAPI(),
     };
-
     const navigation = useNavigation();
 
     const [userID, setUserID] = useState('');
@@ -404,6 +403,7 @@ const EditInformationScreen = () => {
                                 );
 
                                 // Envoyez à l'API pour validation (à implémenter)
+
                                 const validationResponse = await fetch(
                                     `http://${Config.ipRN}:${Config.portAPI}/api/v1/users/${userID}`,
                                     {
