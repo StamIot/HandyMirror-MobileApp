@@ -1,3 +1,12 @@
+/**
+ * Créer le : 17/07/2023
+ * Mis à jour le : 18/08/2023
+ * Author: Guillon Alain
+ * Version: 1.0.0
+ * ------------------------------------------------------------------------------------------------------------
+ * Ajout du commentaire
+ */
+
 // Dépendances
 import { StyleSheet, View, Text, Pressable, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';

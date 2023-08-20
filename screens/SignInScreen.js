@@ -1,3 +1,12 @@
+/**
+ * Créer le : 17/05/2023
+ * Mis à jour le : 20/08/2023
+ * Author: Guillon Alain
+ * Version: 1.0.0
+ * ------------------------------------------------------------------------------------------------------------
+ * Ajout du commentaire
+ */
+
 // Dépendances
 import { useState } from 'react';
 import { StyleSheet, View, Text, Pressable, Image, Modal } from 'react-native';

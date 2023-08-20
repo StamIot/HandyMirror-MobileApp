@@ -1,3 +1,12 @@
+/**
+ * Créer le : 17/05/2023
+ * Mis à jour le : 20/08/2023
+ * Author: Majorel Sophie
+ * Version: 1.0.0
+ * ------------------------------------------------------------------------------------------------------------
+ * Ajout du commentaire
+ */
+
 // Dépendances
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Switch } from 'react-native';

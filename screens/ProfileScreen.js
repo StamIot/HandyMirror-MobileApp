@@ -1,3 +1,12 @@
+/**
+ * Créer le : 17/07/2023
+ * Mis à jour le : 20/08/2023
+ * Author: Guillon Alain
+ * Version: 1.0.0
+ * ------------------------------------------------------------------------------------------------------------
+ * Ajout de la photo prise en compte par l'API
+ */
+
 // Dépendances
 import { useState, useEffect } from 'react';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
@@ -26,13 +35,14 @@ const ProfileScreen = ({ photoUri }) => {
         ipRN: configSingleton.getMyIPLocal(),
         portAPI: configSingleton.getPortAPI(),
     };
-  
+
     const navigation = useNavigation();
     const route = useRoute();
 
     const [loading, setLoading] = useState(true);
     const [userData, setUserData] = useState({
         firstname: '',
+        photoProfile: '',
         modules: [],
     });
     const [infoModalVisible, setInfoModalVisible] = useState(false);
@@ -41,13 +51,6 @@ const ProfileScreen = ({ photoUri }) => {
         const fetchData = async () => {
             try {
                 const userID = await AsyncStorage.getItem('userID');
-                const AsyncStorageGetFirstname = await AsyncStorage.getItem(
-                    'userData',
-                );
-                const { firstname: AsyncStorageFirstnameParse } = JSON.parse(
-                    AsyncStorageGetFirstname,
-                );
-                // console.log(AsyncStorageFirstnameParse);
 
                 const CheckUserExist = await fetch(
                     `http://${Config.ipRN}:${Config.portAPI}/api/v1/users/${userID}`,
@@ -55,9 +58,13 @@ const ProfileScreen = ({ photoUri }) => {
                 const userFound = await CheckUserExist.json();
 
                 if (userFound) {
-                    const { firstname: firstnameJSON, modules: modulesJSON } =
-                        userFound.users;
-                    //console.log(firstnameJSON, modulesJSON);
+                    const {
+                        firstname: firstnameJSON,
+                        photoProfile: photoProfileJSON,
+                        modules: modulesJSON,
+                    } = userFound.users;
+
+                    // console.log({ checkData: firstnameJSON, photoProfileJSON });
 
                     const clockModuleResponse = await fetch(
                         `http://${Config.ipRN}:${Config.portAPI}/api/v1/modules/64d8df7226bb4f951331e3f2`,
@@ -83,7 +90,8 @@ const ProfileScreen = ({ photoUri }) => {
 
                     setUserData({
                         ...userData,
-                        firstname: firstnameJSON || AsyncStorageFirstnameParse,
+                        firstname: firstnameJSON,
+                        photoProfile: photoProfileJSON,
                         modules: [
                             clockJson.modules,
                             medicationReminderJson.modules,
@@ -156,7 +164,11 @@ const ProfileScreen = ({ photoUri }) => {
                     <View style={styles.messageContainer}>
                         <Image
                             style={styles.avatar}
-                            source={require('../assets/images/Default_UserProfilePicture1.png')}
+                            source={
+                                userData.photoProfile
+                                    ? { uri: userData.photoProfile }
+                                    : require('../assets/images/Default_UserProfilePicture1.png')
+                            }
                         />
                         <Text
                             style={styles.message}
@@ -314,7 +326,8 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         backgroundColor: Tools.color.light.antiquewhite,
-        borderRadius: 50,
+
+        borderRadius: Tools.border.size.round,
     },
     circleOne: {
         position: 'absolute',
@@ -338,7 +351,7 @@ const styles = StyleSheet.create({
     avatar: {
         width: 80,
         height: 80,
-        borderRadius: 50,
+        borderRadius: Tools.border.size.round,
         marginRight: 20,
         marginLeft: 20,
     },
@@ -396,7 +409,7 @@ const styles = StyleSheet.create({
     iconContainer: {
         backgroundColor: Tools.color.light.grey,
         padding: 8,
-        borderRadius: 50,
+        borderRadius: Tools.border.size.round,
     },
 
     goSettings: {

@@ -1,3 +1,11 @@
+/**
+ * Date: 18/05/2023
+ * Author: Guillon Alain
+ * Version: 1.0.0
+ * ------------------------------------------------------------------------------------------------------------
+ * 
+ */
+
 // Dépendances
 import { useState } from 'react';
 import { Entypo } from '@expo/vector-icons';

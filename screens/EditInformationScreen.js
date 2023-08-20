@@ -1,3 +1,12 @@
+/**
+ * Créer le : 17/05/2023
+ * Mis à jour le : 20/08/2023
+ * Author: Guillon Alain
+ * Version: 1.0.5
+ * ------------------------------------------------------------------------------------------------------------
+ * Ajout de la prise en charge de la photo par l'API
+ */
+
 // Dépendances
 import { useState, useEffect } from 'react';
 import { Entypo } from '@expo/vector-icons';
@@ -29,8 +38,14 @@ const EditInformationScreen = () => {
         ipRN: configSingleton.getMyIPLocal(),
         portAPI: configSingleton.getPortAPI(),
     };
+
+    // Navigation
     const navigation = useNavigation();
 
+    // State Caméra
+    const [galleryPhotoPermission, setGalleryPhotoPermission] = useState(null);
+    const [photo, setPhoto] = useState('');
+    // Sate User
     const [userID, setUserID] = useState('');
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
@@ -44,14 +59,86 @@ const EditInformationScreen = () => {
     const [compagnionLife, setCompagnionLife] = useState('');
     const [children, setChildren] = useState(false);
     const [contentForm, setContentForm] = useState({});
-    const [selectedImage, setSelectedImage] = useState('');
+
+    // Gallery Permission
+    useEffect(async () => {
+        const galerryPhotoState =
+            await ImagePicker.requestMediaLibraryPermissionsAsync();
+        galerryPhotoState.granted
+            ? setGalleryPhotoPermission(galerryPhotoState.status === 'granted')
+            : setGalleryPhotoPermission(null);
+    }, []);
+
+    // Chargement de la photo sauvegarder si elle existe dans l'AsyncStorage
+    useEffect(() => {
+        const loadPhotoFromAsyncStorage = async () => {
+            try {
+                const savedPhotoAsync = await AsyncStorage.getItem(
+                    'photoAsync',
+                );
+                if (savedPhotoAsync) {
+                    setPhoto(savedPhotoAsync);
+                }
+            } catch (error) {
+                console.log(
+                    'Erreur lors du chargement de la photo depuis le stockage :',
+                    error,
+                );
+            }
+        };
+
+        loadPhotoFromAsyncStorage();
+    }, []);
+
+    const takePhoto = async () => {
+        // Lancement de la sélection de la photo
+        let photoResult = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images, // Autorise uniquement les images
+            allowsEditing: true, // permet à l'utilisateur de redimentionner son image
+            aspect: [1, 1], // 1,1 = carré - 4,3 = quatre tier - 16,9 = seize neuvième
+            quality: 1, // 0,1 = bad quality - 1 = extra quality
+        });
+
+        // console.log({checkData: { photo: photoResult.assets[0].uri }});
+
+        // Permission
+        if (Platform.OS !== 'web') {
+            if (!galleryPhotoPermission) {
+                Alert.alert(
+                    'Permission refusée',
+                    "Désolé, vous n'avez pas accordé l'accès à vos photos.",
+                );
+            }
+        }
+        if (photoResult.canceled) {
+            Alert.alert(
+                'Annulation',
+                "Vous venez d'annuler la saisie d'une photo pour votre profil",
+            );
+        }
+        if (!photoResult.canceled) {
+            setPhoto(photoResult.assets[0].uri);
+
+            try {
+                await AsyncStorage.setItem(
+                    'photoAsync',
+                    photoResult.assets[0].uri,
+                );
+            } catch (error) {
+                console.log(
+                    "Erreur lors de l'enregistrement de l'URI de la photo :",
+                    error,
+                );
+            }
+        }
+    };
 
     useEffect(() => {
         const fetchData = async () => {
-            const userID = await AsyncStorage.getItem('userID');
-            setUserID(userID);
-
             try {
+                const userID = await AsyncStorage.getItem('userID');
+                setUserID(userID);
+
                 if (userID) {
                     const userResponse = await fetch(
                         `http://${Config.ipRN}:${Config.portAPI}/api/v1/users/${userID}`,
@@ -70,6 +157,7 @@ const EditInformationScreen = () => {
                     setCountry(userJson.users.country);
                     setCompagnionLife(userJson.users.compagnionLife);
                     setChildren(userJson.users.children);
+                    setPhoto(userJson.users.photoProfile);
 
                     console.log(contentForm.users);
                 }
@@ -81,38 +169,63 @@ const EditInformationScreen = () => {
         fetchData();
     }, []);
 
-    const onPressPickerHandler = async () => {
-        // Permission
-        if (Platform.OS !== 'web') {
-            const { status } =
-                await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-            if (status !== 'granted') {
-                Alert.alert(
-                    'Permission refusée',
-                    "Désolé, vous n'avez pas accordé l'accès à vos photos.",
-                );
-            }
-        }
-
-        // Ouvrir la fenetre
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images, // Autorise uniquement les images
-            allowsEditing: true, // permet à l'utilisateur de redimentionner son image
-            aspect: [1, 1], // [1,1] un carré - [4,3] 4 tiers - [16,9] 16 neuvième
-            quality: 1, // 0 qualité moche et 1 parfaite résolution
-            base64: true,
-        });
-
-        // console.log({
-        //     base64: result.base64,
-        // });
-
-        if (result.cancelled) {
-            Alert.alert(
-                "Impossible d'ajouter une image",
-                'Vous avez annulé la sélection',
+    // UPDATE
+    const updateUserHandler = async () => {
+        try {
+            const updatedContentForm = {
+                ...contentForm.users,
+                firstname: firstname,
+                lastname: lastname,
+                email: email,
+                pseudo: pseudo,
+                phone: phone,
+                genre: genre,
+                addressAtHome: addressAtHome,
+                city: city,
+                country: country,
+                compagnionLife: compagnionLife,
+                children: children,
+                photoProfile: photo,
+            };
+            console.log(
+                '\n\n ------------------ contentForm ',
+                updatedContentForm,
+                '\n\n',
             );
+
+            // Mettez à jour les données locales dans AsyncStorage
+            await AsyncStorage.setItem(
+                'userData',
+                JSON.stringify(updatedContentForm),
+            );
+
+            // Envoyez à l'API pour validation (à implémenter)
+
+            const validationResponse = await fetch(
+                `http://${Config.ipRN}:${Config.portAPI}/api/v1/users/${userID}`,
+                {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(updatedContentForm),
+                },
+            );
+
+            const validationJson = await validationResponse.json();
+            console.log(
+                '\n\n ------------------ users ',
+                validationJson,
+                '\n\n',
+            );
+            console.log('REDIRECCCCCCCCCCCCCCCCCCT');
+            navigation.navigate('ProfileScreen', {
+                refresh: true,
+            });
+            //navigation.goBack({ refresh: true }); // Indiquez à ProfileScreen de rafraîchir ses données
+            // navigation.navigate('ProfileScreen');
+        } catch (error) {
+            console.log('Error updating data:', error);
         }
     };
 
@@ -139,15 +252,13 @@ const EditInformationScreen = () => {
                             />
                         </View>
                     </Pressable>
-                    <Pressable
-                        style={styles.goBack}
-                        onPress={onPressPickerHandler}
-                    >
+
+                    <Pressable style={styles.goBack} onPress={takePhoto}>
                         <View style={styles.photoCircleContainer}>
-                            {selectedImage ? (
+                            {photo ? (
                                 <Image
                                     style={styles.photoCircleText}
-                                    source={{ uri: selectedImage }}
+                                    source={{ uri: photo }}
                                 />
                             ) : (
                                 <Text style={styles.photoCircleText}>
@@ -372,69 +483,7 @@ const EditInformationScreen = () => {
                         </View>
                     </View>
 
-                    <Pressable
-                        style={styles.btn}
-                        onPress={async () => {
-                            try {
-                                const updatedContentForm = {
-                                    ...contentForm.users,
-                                    firstname: firstname,
-                                    lastname: lastname,
-                                    email: email,
-                                    pseudo: pseudo,
-                                    phone: phone,
-                                    genre: genre,
-                                    addressAtHome: addressAtHome,
-                                    city: city,
-                                    country: country,
-                                    compagnionLife: compagnionLife,
-                                    children: children,
-                                };
-                                console.log(
-                                    '\n\n ------------------ contentForm ',
-                                    updatedContentForm,
-                                    '\n\n',
-                                );
-
-                                // Mettez à jour les données locales dans AsyncStorage
-                                await AsyncStorage.setItem(
-                                    'userData',
-                                    JSON.stringify(updatedContentForm),
-                                );
-
-                                // Envoyez à l'API pour validation (à implémenter)
-
-                                const validationResponse = await fetch(
-                                    `http://${Config.ipRN}:${Config.portAPI}/api/v1/users/${userID}`,
-                                    {
-                                        method: 'PUT',
-                                        headers: {
-                                            'Content-Type': 'application/json',
-                                        },
-                                        body: JSON.stringify(
-                                            updatedContentForm,
-                                        ),
-                                    },
-                                );
-
-                                const validationJson =
-                                    await validationResponse.json();
-                                console.log(
-                                    '\n\n ------------------ users ',
-                                    validationJson,
-                                    '\n\n',
-                                );
-                                console.log('REDIRECCCCCCCCCCCCCCCCCCT');
-                                navigation.navigate('ProfileScreen', {
-                                    refresh: true,
-                                });
-                                //navigation.goBack({ refresh: true }); // Indiquez à ProfileScreen de rafraîchir ses données
-                                // navigation.navigate('ProfileScreen');
-                            } catch (error) {
-                                console.log('Error updating data:', error);
-                            }
-                        }}
-                    >
+                    <Pressable style={styles.btn} onPress={updateUserHandler}>
                         <Text style={styles.btnText}>
                             Enregistrer les modifications
                         </Text>
