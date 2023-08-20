@@ -1,3 +1,11 @@
+/**
+ * Date: 17/08/2023
+ * Author: Guillon Alain
+ * Version: 1.0.0
+ * ------------------------------------------------------------------------------------------------------------
+ *
+ */
+
 // Dépendances
 import { StyleSheet, View, Text, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -68,9 +76,7 @@ const DetectePhotoRightProfileScreen = () => {
                         navigation.navigate('DetectePhotoStatusScreen')
                     }
                 >
-                    <Text style={styles.btnText}>
-                        Photo côté droit
-                    </Text>
+                    <Text style={styles.btnText}>Photo côté droit</Text>
                 </Pressable>
             </View>
         </View>

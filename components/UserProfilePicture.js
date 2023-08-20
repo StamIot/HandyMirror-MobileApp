@@ -1,3 +1,11 @@
+/**
+ * Date: 18/05/2023
+ * Author: Majorel Sophie
+ * Version: 1.0.0
+ * ------------------------------------------------------------------------------------------------------------
+ *
+ */
+
 import React from 'react';
 import { Image, TouchableOpacity } from 'react-native';
 

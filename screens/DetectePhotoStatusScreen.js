@@ -1,13 +1,49 @@
+/**
+ * Date: 17/08/2023
+ * Author: Guillon Alain
+ * Version: 1.0.0
+ * ------------------------------------------------------------------------------------------------------------
+ *
+ */
+
 // Dépendances
-import { StyleSheet, View, Text, Pressable, ScrollView } from 'react-native';
+import { useState } from 'react';
+import {
+    StyleSheet,
+    View,
+    Text,
+    Pressable,
+    ScrollView,
+    Image,
+    TouchableOpacity,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
+
+// Remplace dotenv
+import configSingleton from '../config/settings/Configuration';
 
 // Utilitaire
 import Tools from '../utilities/Tools'; // charge index.js
 
 const DetectePhotoStatusScreen = () => {
+    // Singleton (Configuration)
+    const Config = {
+        ipRN: configSingleton.getMyIPLocal(),
+        portAPI: configSingleton.getPortAPI(),
+    };
+
+    // Navigation
     const navigation = useNavigation();
+
+    // State
+    const [userData, setUserData] = useState({
+        photos: {
+            face: '',
+            left: '',
+            right: '',
+        },
+    });
 
     return (
         <ScrollView style={styles.DetectePhotoStatusScreenContainer}>
@@ -48,33 +84,103 @@ const DetectePhotoStatusScreen = () => {
 
                 {/* DETECTION */}
                 <View style={styles.bgcDetection}>
-                    <Text
+                    {/* PHOTO DE FACE */}
+
+                    <View
                         style={{
-                            color: Tools.color.light.green,
-                            marginBottom: '10%',
-                            alignSelf: 'center',
+                            flexDirection: 'row',
+                            width: '100%',
+                            paddingHorizontal: 20,
+                            paddingVertical: 20,
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            flex: 1 / 3,
                         }}
                     >
-                        IMAGE 1 à éditer
-                    </Text>
-                    <Text
+                        <Text>Photo de Face: </Text>
+                        <TouchableOpacity
+                            onPress={() =>
+                                navigation.navigate('DetectePhotoFaceScreen')
+                            }
+                        >
+                            {userData.photos.face ? (
+                                <Image
+                                    style={styles.photoCircleText}
+                                    source={{ uri: userData.photos.face }}
+                                />
+                            ) : (
+                                <Text style={styles.photoCircleText}>
+                                    Ajouter votre photo
+                                </Text>
+                            )}
+                        </TouchableOpacity>
+                    </View>
+
+                    {/* PHOTO DE PROFILE CÔTE GAUCHE */}
+                    <View
                         style={{
-                            color: Tools.color.light.green,
-                            marginBottom: '10%',
-                            alignSelf: 'center',
+                            flexDirection: 'row',
+                            width: '100%',
+                            paddingHorizontal: 20,
+                            paddingVertical: 20,
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            flex: 1 / 3,
                         }}
                     >
-                        IMAGE 2 à éditer
-                    </Text>
-                    <Text
+                        <Text>Photo de Profile côté gauche : </Text>
+                        <TouchableOpacity
+                            onPress={() =>
+                                navigation.navigate(
+                                    'DetectePhotoLeftProfileScreen',
+                                )
+                            }
+                        >
+                            {userData.photos.left ? (
+                                <Image
+                                    style={styles.photoCircleText}
+                                    source={{ uri: userData.photos.left }}
+                                />
+                            ) : (
+                                <Text style={styles.photoCircleText}>
+                                    Ajouter votre photo
+                                </Text>
+                            )}
+                        </TouchableOpacity>
+                    </View>
+
+                    {/* PHOTO DE PROFILE CÔTE DROIT */}
+                    <View
                         style={{
-                            color: Tools.color.light.green,
-                            marginBottom: '10%',
-                            alignSelf: 'center',
+                            flexDirection: 'row',
+                            width: '100%',
+                            paddingHorizontal: 20,
+                            paddingVertical: 20,
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            flex: 1 / 3,
                         }}
                     >
-                        IMAGE 3 à éditer
-                    </Text>
+                        <Text>Photo de Profile côté droit : </Text>
+                        <TouchableOpacity
+                            onPress={() =>
+                                navigation.navigate(
+                                    'DetectePhotoRightProfileScreen',
+                                )
+                            }
+                        >
+                            {userData.photos.right ? (
+                                <Image
+                                    style={styles.photoCircleText}
+                                    source={{ uri: userData.photos.right }}
+                                />
+                            ) : (
+                                <Text style={styles.photoCircleText}>
+                                    Ajouter votre photo
+                                </Text>
+                            )}
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
 
@@ -89,12 +195,13 @@ const DetectePhotoStatusScreen = () => {
                     <Text style={styles.btnText}>Démarrer</Text>
                 </Pressable>
                 <Pressable
-                    style={styles.btn}
-                    onPress={() =>
-                        navigation.navigate('DetectePhotoFaceScreen')
-                    }
+                    style={{
+                        ...styles.btn,
+                        backgroundColor: Tools.color.dark.red,
+                    }}
+                    onPress={() => console.log('Update user')}
                 >
-                    <Text style={styles.btnText}>Recommencer</Text>
+                    <Text style={styles.btnText}>Enregistrer</Text>
                 </Pressable>
             </View>
         </ScrollView>
@@ -171,11 +278,23 @@ const styles = StyleSheet.create({
     },
     bgcDetection: {
         backgroundColor: Tools.color.light.antiquewhite,
-        alignSelf: 'center',
+        borderRadius: Tools.border.size.sm,
+        alignSelf: 'stretch',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         height: 400,
         width: 350,
+    },
+    photoCircleText: {
+        backgroundColor: Tools.color.light.grey,
+        color: Tools.color.black,
+        textAlign: 'center',
+        textAlignVertical: 'center',
+        height: 100,
+        width: 100,
+        borderRadius: Tools.border.size.sm,
+        fontSize: 12,
+        fontWeight: '700',
     },
 
     /**
@@ -183,15 +302,15 @@ const styles = StyleSheet.create({
      */
     btnContainer: {
         flexDirection: 'row',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        justifyContent: 'space-around',
         width: '100%',
         paddingHorizontal: 20,
         marginBottom: '10%',
     },
     btn: {
-        flex: 0.4,
-        backgroundColor: Tools.color.light.grey,
+        flex: 0.48,
+        backgroundColor: Tools.color.light.yellow,
         paddingHorizontal: 10,
         paddingVertical: 15,
         marginTop: '10%',

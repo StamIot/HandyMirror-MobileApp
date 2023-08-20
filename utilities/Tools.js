@@ -1,7 +1,10 @@
 /**
- * Date: 19/08/2023
+ * Créer le : 19/08/2023
+ * Mis à jour le : 20/08/2023
  * Author: Guillon Alain
  * Version: 1.0.0
+ * ------------------------------------------------------------------------------------------------------------
+ * Mise à jour du commentaire
  */
 
 const Tools = {
@@ -24,10 +27,11 @@ const Tools = {
         },
         light: {
             green: '#6D8B74',
-            antiquewhite: '#EFEAD8',
+            antiquewhite: '#EFEAD8', // Antiquewhite
             grey: '#C0C0C0', // Silver
             red: '#F08080', // Lightcoral
             blue: '#87CEFA', // LightSkyBlue
+            yellow: '#FFFACD', // Lemonchiffon
         },
         black: '#000000',
         white: '#F1F1F1',
@@ -53,6 +57,6 @@ const Tools = {
     },
 };
 
-console.log(Tools);
+// console.log({ checkData: Tools });
 
 export default Tools;

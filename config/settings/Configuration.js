@@ -1,3 +1,11 @@
+/**
+ * Date: 18/08/2023
+ * Author: Guillon Alain
+ * Version: 1.0.1
+ * ------------------------------------------------------------------------------------------------------------
+ * Editer la ligne 34 selon votre configuration, à savoir le 3ème arguments est une chaine de caractère vide
+ */
+
 class Configuration {
     constructor(myIPLocal, portAPI, apiKEY) {
         this._myIPLocal = myIPLocal;

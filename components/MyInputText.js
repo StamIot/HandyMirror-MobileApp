@@ -1,3 +1,11 @@
+/**
+ * Date: 18/05/2023
+ * Author: Majorel Sophie & Guillon Alain
+ * Version: 2.0.0
+ * ------------------------------------------------------------------------------------------------------------
+ * Réécriture du code par Alain le 14/08/2023.
+ */
+
 // Dépendances
 import React from 'react';
 import { SafeAreaView, StyleSheet, TextInput } from 'react-native';
