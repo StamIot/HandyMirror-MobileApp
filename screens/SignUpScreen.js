@@ -5,7 +5,8 @@ import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
 // Remplace dotenv
-import Config from '../config/config';
+import configSingleton from '../config/Configuration';
+
 
 // Utilitaire
 import * as Utilities from '../src/utilities/utilities';
@@ -14,6 +15,11 @@ import * as Utilities from '../src/utilities/utilities';
 import MyInputText from '../Component/MyInputText';
 
 const SignUpScreen = () => {
+    // Singleton (Configuration)
+    const Config = {
+        ipRN: configSingleton.getMyIPLocal(),
+        portAPI: configSingleton.getPortAPI(),
+    };
     const navigation = useNavigation();
 
     const [firstname, setFirstname] = useState('');
@@ -26,7 +32,7 @@ const SignUpScreen = () => {
 
     const handleSignup = async () => {
         try {
-            const response = await axios.post(`http://${Config.IP_LOCAL_REACT_NATIVE}:${Config.PORT_SERVER_API}/api/v1/signUp`, {
+            const response = await axios.post(`http://${Config.ipRN}:${Config.portAPI}/api/v1/signUp`, {
                 firstname,
                 lastname,
                 email,

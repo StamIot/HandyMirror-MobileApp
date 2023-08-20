@@ -7,12 +7,17 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ImagePicker from 'expo-image-picker';
 
 // Remplace dotenv
-import Config from '../config/config';
+import configSingleton from '../config/Configuration';
 
 // Utilitaires
 import * as Utilities from '../src/utilities/utilities';
 
 const EditInformationScreen = () => {
+    // Singleton (Configuration)
+    const Config = {
+        ipRN: configSingleton.getMyIPLocal(),
+        portAPI: configSingleton.getPortAPI(),
+    };
     const navigation = useNavigation();
 
     const [userID, setUserID] = useState('');
@@ -37,7 +42,7 @@ const EditInformationScreen = () => {
 
             try {
                 if (userID) {
-                    const userResponse = await fetch(`http://${Config.IP_LOCAL_REACT_NATIVE}:${Config.PORT_SERVER_API}/api/v1/users/${userID}`);
+                    const userResponse = await fetch(`http://${Config.ipRN}:${Config.portAPI}/api/v1/users/${userID}`);
                     const userJson = await userResponse.json();
 
                     setContentForm({ ...userJson });
@@ -236,7 +241,7 @@ const EditInformationScreen = () => {
                                 await AsyncStorage.setItem('userData', JSON.stringify(updatedContentForm));
 
                                 // Envoyez à l'API pour validation (à implémenter)
-                                const validationResponse = await fetch(`http://${Config.IP_LOCAL_REACT_NATIVE}:${Config.PORT_SERVER_API}/api/v1/users/${userID}`, {
+                                const validationResponse = await fetch(`http://${Config.ipRN}:${Config.portAPI}/api/v1/users/${userID}`, {
                                     method: 'PUT',
                                     headers: {
                                         'Content-Type': 'application/json',

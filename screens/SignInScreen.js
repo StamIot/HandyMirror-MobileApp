@@ -6,7 +6,8 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Remplace dotenv
-import Config from '../config/config';
+import configSingleton from '../config/Configuration';
+
 
 // Utilitaire
 import * as Utilities from '../src/utilities/utilities';
@@ -15,6 +16,11 @@ import * as Utilities from '../src/utilities/utilities';
 import MyInputText from '../Component/MyInputText';
 
 const SignInScreen = () => {
+    // Singleton (Configuration)
+    const Config = {
+        ipRN: configSingleton.getMyIPLocal(),
+        portAPI: configSingleton.getPortAPI(),
+    };
     const navigation = useNavigation();
 
     const [email, setEmail] = useState('');
@@ -30,7 +36,7 @@ const SignInScreen = () => {
         }
 
         try {
-            const response = await axios.post(`http://${Config.IP_LOCAL_REACT_NATIVE}:${Config.PORT_SERVER_API}/api/v1/signin`, {
+            const response = await axios.post(`http://${Config.ipRN}:${Config.portAPI}/api/v1/signin`, {
                 email,
                 password,
             });

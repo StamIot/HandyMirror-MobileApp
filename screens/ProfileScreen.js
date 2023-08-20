@@ -9,9 +9,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Utilities from '../src/utilities/utilities';
 
 // Remplace dotenv
-import Config from '../config/config';
+import configSingleton from '../config/Configuration';
+
 
 const ProfileScreen = ({ photoUri }) => {
+    // Singleton (Configuration)
+    const Config = {
+        ipRN: configSingleton.getMyIPLocal(),
+        portAPI: configSingleton.getPortAPI(),
+    };
     const navigation = useNavigation();
     const route = useRoute();
 
@@ -30,23 +36,23 @@ const ProfileScreen = ({ photoUri }) => {
                 const { firstname: AsyncStorageFirstnameParse } = JSON.parse(AsyncStorageGetFirstname);
                 // console.log(AsyncStorageFirstnameParse);
 
-                const CheckUserExist = await fetch(`http://${Config.IP_LOCAL_REACT_NATIVE}:${Config.PORT_SERVER_API}/api/v1/users/${userID}`);
+                const CheckUserExist = await fetch(`http://${Config.ipRN}:${Config.portAPI}/api/v1/users/${userID}`);
                 const userFound = await CheckUserExist.json();
 
                 if (userFound) {
                     const { firstname: firstnameJSON, modules: modulesJSON } = userFound.users;
                     //console.log(firstnameJSON, modulesJSON);
 
-                    const clockModuleResponse = await fetch(`http://${Config.IP_LOCAL_REACT_NATIVE}:${Config.PORT_SERVER_API}/api/v1/modules/64d8df7226bb4f951331e3f2`);
+                    const clockModuleResponse = await fetch(`http://${Config.ipRN}:${Config.portAPI}/api/v1/modules/64d8df7226bb4f951331e3f2`);
                     const clockJson = await clockModuleResponse.json();
 
-                    const medicationReminderResponse = await fetch(`http://${Config.IP_LOCAL_REACT_NATIVE}:${Config.PORT_SERVER_API}/api/v1/modules/64d8e2c75a4e966a9c7782bd`);
+                    const medicationReminderResponse = await fetch(`http://${Config.ipRN}:${Config.portAPI}/api/v1/modules/64d8e2c75a4e966a9c7782bd`);
                     const medicationReminderJson = await medicationReminderResponse.json();
 
-                    const openmapWeatherResponse = await fetch(`http://${Config.IP_LOCAL_REACT_NATIVE}:${Config.PORT_SERVER_API}/api/v1/modules/64d8e2ca5a4e966a9c7782c0`);
+                    const openmapWeatherResponse = await fetch(`http://${Config.ipRN}:${Config.portAPI}/api/v1/modules/64d8e2ca5a4e966a9c7782c0`);
                     const openmapWeatherJson = await openmapWeatherResponse.json();
 
-                    const tdaResponse = await fetch(`http://${Config.IP_LOCAL_REACT_NATIVE}:${Config.PORT_SERVER_API}/api/v1/modules/64d8e2cc5a4e966a9c7782c3`);
+                    const tdaResponse = await fetch(`http://${Config.ipRN}:${Config.portAPI}/api/v1/modules/64d8e2cc5a4e966a9c7782c3`);
                     const tdaJson = await tdaResponse.json();
 
                     setUserData({
