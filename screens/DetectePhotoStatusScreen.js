@@ -7,7 +7,7 @@
  */
 
 // Dépendances
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
     StyleSheet,
     View,
@@ -19,12 +19,14 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Entypo } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Remplace dotenv
 import configSingleton from '../config/settings/Configuration';
 
 // Utilitaire
 import Tools from '../utilities/Tools'; // charge index.js
+import { Alert } from 'react-native';
 
 const DetectePhotoStatusScreen = () => {
     // Singleton (Configuration)
@@ -38,12 +40,105 @@ const DetectePhotoStatusScreen = () => {
 
     // State
     const [userData, setUserData] = useState({
+        userID: '',
         photos: {
             face: '',
             left: '',
             right: '',
         },
     });
+
+    // console.log(userData);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const userID = await AsyncStorage.getItem('userID');
+                if (userID) {
+                    const userPhotosResponse = await fetch(
+                        `http://${Config.ipRN}:${Config.portAPI}/api/v1/users/${userID}/photos`,
+                    );
+                    const userJson = await userPhotosResponse.json();
+
+                    if (userJson) {
+                        console.log(userJson.users);
+
+                        setUserData({
+                            ...userData,
+                            userID: userJson.users._id,
+                            photos: {
+                                face: userJson.users.photos.face,
+                                left: userJson.users.photos.left,
+                                right: userJson.users.photos.right,
+                            },
+                        });
+                    }
+                }
+            } catch (error) {
+                console.log("Erreur lors de la récupération de l'ID:", error);
+            }
+        };
+        fetchData();
+    }, []);
+
+    // UPDATE
+    const updateUserPhotosHandler = async () => {
+        try {
+            const userID = await AsyncStorage.getItem('userID');
+            const { face, left, right } = userData.photos;
+
+            console.log(face);
+
+            if (face === '' || left === '' || right === '') {
+                return Alert.alert(
+                    'Mise à jour impossible',
+                    'Vous devez renseigner une image pour chacune des positions demandé',
+                );
+            } else {
+                const updatedUserData = {
+                    ...userData.users,
+                    photos: {
+                        face: userData.photos.face,
+                        left: userData.photos.left,
+                        right: userData.photos.right,
+                    },
+                };
+                console.log(
+                    '\n\n ------------------ contentForm ',
+                    updatedUserData,
+                    '\n\n',
+                );
+
+                // Envoyez à l'API pour validation (à implémenter)
+                const validationResponse = await fetch(
+                    `http://${Config.ipRN}:${Config.portAPI}/api/v1/users/${userID}/photos`,
+                    {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(updatedUserData),
+                    },
+                );
+
+                const validationJson = await validationResponse.json();
+                console.log(
+                    '\n\n ------------------ users ',
+                    validationJson,
+                    '\n\n',
+                );
+                console.log('REDIRECCCCCCCCCCCCCCCCCCT');
+                Alert.alert(
+                    'Oh tu viens de réussir',
+                    'Mise à jour réussi avec succès',
+                );
+                //navigation.goBack({ refresh: true }); // Indiquez à ProfileScreen de rafraîchir ses données
+                // navigation.navigate('ProfileScreen');
+            }
+        } catch (error) {
+            console.log('Error updating data:', error);
+        }
+    };
 
     return (
         <ScrollView style={styles.DetectePhotoStatusScreenContainer}>
@@ -199,7 +294,7 @@ const DetectePhotoStatusScreen = () => {
                         ...styles.btn,
                         backgroundColor: Tools.color.dark.red,
                     }}
-                    onPress={() => console.log('Update user')}
+                    onPress={updateUserPhotosHandler}
                 >
                     <Text style={styles.btnText}>Enregistrer</Text>
                 </Pressable>
@@ -247,7 +342,7 @@ const styles = StyleSheet.create({
         marginTop: 60,
     },
     title: {
-        fontFamily: 'Urbanist Medium',
+        fontFamily: Tools.font.family.urbanist.medium,
         fontSize: 35,
         color: Tools.color.light.antiquewhite,
         textAlign: 'center',

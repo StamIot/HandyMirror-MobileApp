@@ -3,7 +3,7 @@
  * Author: Guillon Alain
  * Version: 1.0.1
  * ------------------------------------------------------------------------------------------------------------
- * Editer la ligne 34 selon votre configuration, à savoir le 3ème arguments est une chaine de caractère vide
+ * Editer la ligne 42 selon votre configuration, à savoir le 3ème arguments est une chaine de caractère vide
  */
 
 class Configuration {
