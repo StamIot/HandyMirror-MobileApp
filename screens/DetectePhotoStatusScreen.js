@@ -55,6 +55,9 @@ const DetectePhotoStatusScreen = () => {
             try {
                 const userID = await AsyncStorage.getItem('userID');
                 if (userID) {
+                    // si Photo existe dans async storage
+                    // sinon récuperer via un apel api
+
                     const userPhotosResponse = await fetch(
                         `http://${Config.ipRN}:${Config.portAPI}/api/v1/users/${userID}/photos`,
                     );
