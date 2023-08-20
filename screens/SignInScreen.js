@@ -6,14 +6,19 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Remplace dotenv
-import configSingleton from '../config/Configuration';
+import configSingleton from '../config/settings/Configuration';
 
+// Singleton (Configuration)
+const Config = {
+    ipRN: configSingleton.getMyIPLocal(),
+    portAPI: configSingleton.getPortAPI(),
+};
 
 // Utilitaire
-import * as Utilities from '../src/utilities/utilities';
+import Tools from '../utilities/Tools'; // charge index.js
 
 // Composant
-import MyInputText from '../Component/MyInputText';
+import MyInputText from '../components/MyInputText';
 
 const SignInScreen = () => {
     // Singleton (Configuration)
@@ -36,10 +41,13 @@ const SignInScreen = () => {
         }
 
         try {
-            const response = await axios.post(`http://${Config.ipRN}:${Config.portAPI}/api/v1/signin`, {
-                email,
-                password,
-            });
+            const response = await axios.post(
+                `http://${Config.ipRN}:${Config.portAPI}/api/v1/signin`,
+                {
+                    email,
+                    password,
+                },
+            );
 
             // Si l'API renvoie une bonne requête alors celle-ci redirigera vers la page de profile
             if (response.status === 200) {
@@ -50,7 +58,11 @@ const SignInScreen = () => {
                 navigation.navigate('ProfileScreen');
             }
         } catch (error) {
-            if (error.response && error.response.data && error.response.data.error) {
+            if (
+                error.response &&
+                error.response.data &&
+                error.response.data.error
+            ) {
                 const responseError = error.response.data;
                 setErrorMessages(responseError.error);
                 setErrorModalVisible(true);
@@ -77,23 +89,44 @@ const SignInScreen = () => {
 
             {/* Icone / Email / Password / Button */}
             <View style={styles.formContainer}>
-                <Image style={styles.formImage} resizeMode="cover" source={require('../assets/images/maincoucou03-1.png')} />
+                <Image
+                    style={styles.formImage}
+                    resizeMode="cover"
+                    source={require('../assets/images/maincoucou03-1.png')}
+                />
                 <View style={styles.inputContainer}>
-                    <MyInputText placeholder={'Entrez votre adresse mail'} value={email} onChangeText={setEmail} />
-                    <MyInputText placeholder={'Entrez votre mot de passe'} value={password} onChangeText={setPassword} secureTextEntry={true} />
+                    <MyInputText
+                        placeholder={'Entrez votre adresse mail'}
+                        value={email}
+                        onChangeText={setEmail}
+                    />
+                    <MyInputText
+                        placeholder={'Entrez votre mot de passe'}
+                        value={password}
+                        onChangeText={setPassword}
+                        secureTextEntry={true}
+                    />
                 </View>
                 <Pressable style={styles.btn} onPress={handleSignIn}>
                     <Text style={styles.btnText}>Se connecter</Text>
                 </Pressable>
             </View>
 
-            <Modal visible={errorModalVisible} animationType="slide" transparent>
+            <Modal
+                visible={errorModalVisible}
+                animationType="slide"
+                transparent
+            >
                 <View style={styles.modalContainer}>
                     <View style={styles.modalTitle}>
-                        <Text style={styles.modalTitleText}>Oups... Une erreur a été rencontrée</Text>
+                        <Text style={styles.modalTitleText}>
+                            Oups... Une erreur a été rencontrée
+                        </Text>
                     </View>
                     <View style={styles.modalContentText}>
-                        <Text style={styles.modalContentText}>{errorMessages}</Text>
+                        <Text style={styles.modalContentText}>
+                            {errorMessages}
+                        </Text>
                     </View>
                     <View style={styles.modalClose}>
                         <Pressable onPress={() => setErrorModalVisible(false)}>
@@ -105,9 +138,14 @@ const SignInScreen = () => {
 
             {/* Pas de compte s'enregistrer */}
             <View style={styles.ToSignUpContainer}>
-                <Pressable style={styles.vousNavezPasContainer} onPress={() => navigation.navigate('SignUpScreen')}>
+                <Pressable
+                    style={styles.vousNavezPasContainer}
+                    onPress={() => navigation.navigate('SignUpScreen')}
+                >
                     <View style={styles.textContainer}>
-                        <Text style={styles.textDark}>Vous n’avez pas de compte ?</Text>
+                        <Text style={styles.textDark}>
+                            Vous n’avez pas de compte ?
+                        </Text>
                         <Text style={styles.textWhite}>S’enregistrer</Text>
                     </View>
                 </Pressable>
@@ -120,7 +158,7 @@ const SignInScreen = () => {
 const styles = StyleSheet.create({
     signInContainer: {
         flex: 1,
-        backgroundColor: Utilities.color.dark.green,
+        backgroundColor: Tools.color.dark.green,
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
         width: '100%',
@@ -130,13 +168,13 @@ const styles = StyleSheet.create({
      * CIRCLES
      */
     circlesContainer: {
-        backgroundColor: Utilities.color.light.antiquewhite,
+        backgroundColor: Tools.color.light.antiquewhite,
     },
     circle: {
         opacity: 0.8,
         width: 100,
         height: 100,
-        backgroundColor: Utilities.color.light.antiquewhite,
+        backgroundColor: Tools.color.light.antiquewhite,
         borderRadius: 50,
     },
     circleOne: {
@@ -162,8 +200,8 @@ const styles = StyleSheet.create({
         marginBottom: '5%',
     },
     message: {
-        fontSize: Utilities.font.size.xxl,
-        color: Utilities.color.light.antiquewhite,
+        fontSize: Tools.font.size.xxl,
+        color: Tools.color.light.antiquewhite,
     },
 
     /**
@@ -174,8 +212,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingVertical: '10%',
         width: '90%',
-        backgroundColor: Utilities.color.light.green,
-        borderRadius: Utilities.border.sm,
+        backgroundColor: Tools.color.light.green,
+        borderRadius: Tools.border.size.sm,
         marginBottom: '15%',
     },
     formImage: {
@@ -190,14 +228,14 @@ const styles = StyleSheet.create({
      * BUTTON
      */
     btn: {
-        backgroundColor: Utilities.color.dark.green,
+        backgroundColor: Tools.color.dark.green,
         paddingHorizontal: 40,
         paddingVertical: 15,
         marginTop: '5%',
-        borderRadius: Utilities.border.sm,
+        borderRadius: Tools.border.size.sm,
     },
     btnText: {
-        color: Utilities.color.light.antiquewhite,
+        color: Tools.color.light.antiquewhite,
         textTransform: 'uppercase',
         fontWeight: 'bold',
     },
@@ -216,15 +254,15 @@ const styles = StyleSheet.create({
     },
     textDark: {
         fontSize: 16,
-        color: Utilities.color.black,
+        color: Tools.color.black,
     },
     textWhite: {
         fontSize: 16,
-        color: Utilities.color.dark.green,
-        backgroundColor: Utilities.color.light.grey,
+        color: Tools.color.dark.green,
+        backgroundColor: Tools.color.light.grey,
         paddingVertical: 5,
         paddingHorizontal: 10,
-        borderRadius: Utilities.border.md,
+        borderRadius: Tools.border.size.md,
     },
 
     /**
@@ -237,40 +275,40 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0,0.7)',
     },
     modalTitle: {
-        backgroundColor: Utilities.color.light.red,
+        backgroundColor: Tools.color.light.red,
         alignItems: 'flex-start',
         paddingVertical: 10,
         paddingHorizontal: 20,
-        borderTopStartRadius: Utilities.border.sm,
-        borderTopEndRadius: Utilities.border.sm,
+        borderTopStartRadius: Tools.border.size.sm,
+        borderTopEndRadius: Tools.border.size.sm,
     },
     modalTitleText: {
-        fontSize: Utilities.font.size.md,
+        fontSize: Tools.font.size.md,
         fontWeight: 'bold',
-        color: Utilities.color.light.antiquewhite,
+        color: Tools.color.light.antiquewhite,
     },
     modalContent: {
-        backgroundColor: Utilities.color.light.antiquewhite,
+        backgroundColor: Tools.color.light.antiquewhite,
     },
     modalContentText: {
-        backgroundColor: Utilities.color.light.antiquewhite,
-        color: Utilities.color.black,
-        fontSize: Utilities.font.size.sm,
+        backgroundColor: Tools.color.light.antiquewhite,
+        color: Tools.color.black,
+        fontSize: Tools.font.size.sm,
         paddingVertical: 25,
         paddingHorizontal: 12.5,
         fontWeight: 'bold',
     },
     modalClose: {
-        backgroundColor: Utilities.color.light.grey,
+        backgroundColor: Tools.color.light.grey,
         padding: 10,
         alignItems: 'flex-end',
     },
     modalCloseText: {
-        backgroundColor: Utilities.color.black,
-        color: Utilities.color.light.antiquewhite,
+        backgroundColor: Tools.color.black,
+        color: Tools.color.light.antiquewhite,
         paddingVertical: 5,
         paddingHorizontal: 15,
-        borderRadius: Utilities.border.sm,
+        borderRadius: Tools.border.size.sm,
         textTransform: 'uppercase',
     },
 });

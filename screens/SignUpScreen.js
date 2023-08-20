@@ -5,14 +5,13 @@ import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
 // Remplace dotenv
-import configSingleton from '../config/Configuration';
-
+import configSingleton from '../config/settings/Configuration';
 
 // Utilitaire
-import * as Utilities from '../src/utilities/utilities';
+import Tools from '../utilities/Tools'; // charge index.js
 
 // Composants
-import MyInputText from '../Component/MyInputText';
+import MyInputText from '../components/MyInputText';
 
 const SignUpScreen = () => {
     // Singleton (Configuration)
@@ -20,6 +19,7 @@ const SignUpScreen = () => {
         ipRN: configSingleton.getMyIPLocal(),
         portAPI: configSingleton.getPortAPI(),
     };
+  
     const navigation = useNavigation();
 
     const [firstname, setFirstname] = useState('');
@@ -32,20 +32,27 @@ const SignUpScreen = () => {
 
     const handleSignup = async () => {
         try {
-            const response = await axios.post(`http://${Config.ipRN}:${Config.portAPI}/api/v1/signUp`, {
-                firstname,
-                lastname,
-                email,
-                password,
-                confirmPassword,
-            });
+            const response = await axios.post(
+                `http://${Config.ipRN}:${Config.portAPI}/api/v1/signUp`,
+                {
+                    firstname,
+                    lastname,
+                    email,
+                    password,
+                    confirmPassword,
+                },
+            );
 
             if (response.status === 201) {
                 // Redirection vers la page de connexion
                 navigation.navigate('SignInScreen');
             }
         } catch (error) {
-            if (error.response && error.response.data && error.response.data.error) {
+            if (
+                error.response &&
+                error.response.data &&
+                error.response.data.error
+            ) {
                 const responseError = error.response.data;
                 setErrorMessages(responseError.error);
                 setErrorModalVisible(true);
@@ -68,30 +75,64 @@ const SignUpScreen = () => {
 
             {/* FORULAIRE */}
             <View style={styles.formContainer}>
-                <Text style={styles.welcomeSentence}>Bienvenue sur HandyMirror !</Text>
-                <Text style={styles.welcomeSentence}>Ensemble améliorons votre quotidien !</Text>
+                <Text style={styles.welcomeSentence}>
+                    Bienvenue sur HandyMirror !
+                </Text>
+                <Text style={styles.welcomeSentence}>
+                    Ensemble améliorons votre quotidien !
+                </Text>
                 <View style={styles.form}>
-                    <MyInputText placeholder="Quel est votre prénom ?" value={firstname} onChangeText={setFirstname} />
-                    <MyInputText placeholder="Quel est votre nom ?" value={lastname} onChangeText={setLastname} />
-                    <MyInputText placeholder="Quel est votre adresse mail" value={email} onChangeText={setEmail} />
-                    <MyInputText placeholder="Saisissez un mot de passe" value={password} onChangeText={setPassword} />
-                    <MyInputText placeholder="Resaisissez votre mot de passe" value={confirmPassword} onChangeText={setConfirmPassword} />
+                    <MyInputText
+                        placeholder="Quel est votre prénom ?"
+                        value={firstname}
+                        onChangeText={setFirstname}
+                    />
+                    <MyInputText
+                        placeholder="Quel est votre nom ?"
+                        value={lastname}
+                        onChangeText={setLastname}
+                    />
+                    <MyInputText
+                        placeholder="Quel est votre adresse mail"
+                        value={email}
+                        onChangeText={setEmail}
+                    />
+                    <MyInputText
+                        placeholder="Saisissez un mot de passe"
+                        value={password}
+                        onChangeText={setPassword}
+                    />
+                    <MyInputText
+                        placeholder="Resaisissez votre mot de passe"
+                        value={confirmPassword}
+                        onChangeText={setConfirmPassword}
+                    />
                     <Pressable style={styles.btn} onPress={handleSignup}>
                         <Text style={styles.btnText}>S'enregistrer</Text>
                     </Pressable>
                 </View>
 
-                <Modal visible={errorModalVisible} animationType="slide" transparent>
+                <Modal
+                    visible={errorModalVisible}
+                    animationType="slide"
+                    transparent
+                >
                     <View style={styles.modalContainer}>
                         <View style={styles.modalTitle}>
                             <Text style={styles.modalTitleText}>Oups...</Text>
                         </View>
                         <View style={styles.modalContentText}>
-                            <Text style={styles.modalContentText}>{errorMessages}</Text>
+                            <Text style={styles.modalContentText}>
+                                {errorMessages}
+                            </Text>
                         </View>
                         <View style={styles.modalClose}>
-                            <Pressable onPress={() => setErrorModalVisible(false)}>
-                                <Text style={styles.modalCloseText}>Fermer</Text>
+                            <Pressable
+                                onPress={() => setErrorModalVisible(false)}
+                            >
+                                <Text style={styles.modalCloseText}>
+                                    Fermer
+                                </Text>
                             </Pressable>
                         </View>
                     </View>
@@ -100,9 +141,14 @@ const SignUpScreen = () => {
 
             {/* Déjà inscrit */}
             <View style={styles.ToSignInScreenContainer}>
-                <Pressable style={styles.accountExistContainer} onPress={() => navigation.navigate('SignInScreen')}>
+                <Pressable
+                    style={styles.accountExistContainer}
+                    onPress={() => navigation.navigate('SignInScreen')}
+                >
                     <View style={styles.textContainer}>
-                        <Text style={styles.textDark}>On se connaît déjà ?</Text>
+                        <Text style={styles.textDark}>
+                            On se connaît déjà ?
+                        </Text>
                         <Text style={styles.textWhite}>Connexion</Text>
                     </View>
                 </Pressable>
@@ -115,7 +161,7 @@ const SignUpScreen = () => {
 const styles = StyleSheet.create({
     signUpContainer: {
         flex: 1,
-        backgroundColor: Utilities.color.dark.green,
+        backgroundColor: Tools.color.dark.green,
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
         width: '100%',
@@ -125,13 +171,13 @@ const styles = StyleSheet.create({
      * CIRCLES
      */
     circlesContainer: {
-        backgroundColor: Utilities.color.light.antiquewhite,
+        backgroundColor: Tools.color.light.antiquewhite,
     },
     circle: {
         opacity: 0.8,
         width: 100,
         height: 100,
-        backgroundColor: Utilities.color.light.antiquewhite,
+        backgroundColor: Tools.color.light.antiquewhite,
         borderRadius: 50,
     },
     circleOne: {
@@ -155,21 +201,21 @@ const styles = StyleSheet.create({
         top: 40,
         left: 20,
         fontSize: 95,
-        color: Utilities.color.light.antiquewhite,
+        color: Tools.color.light.antiquewhite,
         textShadowColor: 'rgba(0, 0, 0, 0.25)',
         textShadowOffset: {
             width: 0,
             height: 4,
         },
         textShadowRadius: 4,
-        fontFamily: Utilities.font.family.urbanist.regular,
+        fontFamily: Tools.font.family.urbanist.regular,
     },
 
     /**
      * FORMULAIRE
      */
     formContainer: {
-        backgroundColor: Utilities.color.light.green,
+        backgroundColor: Tools.color.light.green,
         position: 'absolute',
         zIndex: 1,
         top: 150,
@@ -178,12 +224,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingTop: 50,
         paddingBottom: 25,
-        borderRadius: Utilities.border.sm,
+        borderRadius: Tools.border.size.sm,
     },
     welcomeSentence: {
-        color: Utilities.color.light.antiquewhite,
+        color: Tools.color.light.antiquewhite,
         textAlign: 'center',
-        fontSize: Utilities.font.size.md,
+        fontSize: Tools.font.size.md,
     },
     form: {
         marginTop: '10%',
@@ -196,14 +242,14 @@ const styles = StyleSheet.create({
     btn: {
         width: '65%',
         alignSelf: 'center',
-        backgroundColor: Utilities.color.dark.green,
+        backgroundColor: Tools.color.dark.green,
         paddingHorizontal: 40,
         paddingVertical: 15,
         marginTop: '10%',
-        borderRadius: Utilities.border.sm,
+        borderRadius: Tools.border.size.sm,
     },
     btnText: {
-        color: Utilities.color.light.antiquewhite,
+        color: Tools.color.light.antiquewhite,
         textTransform: 'uppercase',
         fontWeight: 'bold',
     },
@@ -224,15 +270,15 @@ const styles = StyleSheet.create({
     },
     textDark: {
         fontSize: 16,
-        color: Utilities.color.black,
+        color: Tools.color.black,
     },
     textWhite: {
         fontSize: 16,
-        color: Utilities.color.dark.green,
-        backgroundColor: Utilities.color.light.grey,
+        color: Tools.color.dark.green,
+        backgroundColor: Tools.color.light.grey,
         paddingVertical: 5,
         paddingHorizontal: 10,
-        borderRadius: Utilities.border.md,
+        borderRadius: Tools.border.size.md,
     },
 
     /**
@@ -245,40 +291,40 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0,0.7)',
     },
     modalTitle: {
-        backgroundColor: Utilities.color.light.red,
+        backgroundColor: Tools.color.light.red,
         alignItems: 'flex-start',
         paddingVertical: 10,
         paddingHorizontal: 20,
-        borderTopStartRadius: Utilities.border.sm,
-        borderTopEndRadius: Utilities.border.sm,
+        borderTopStartRadius: Tools.border.size.sm,
+        borderTopEndRadius: Tools.border.size.sm,
     },
     modalTitleText: {
-        fontSize: Utilities.font.size.md,
+        fontSize: Tools.font.size.md,
         fontWeight: 'bold',
-        color: Utilities.color.light.antiquewhite,
+        color: Tools.color.light.antiquewhite,
     },
     modalContent: {
-        backgroundColor: Utilities.color.light.antiquewhite,
+        backgroundColor: Tools.color.light.antiquewhite,
     },
     modalContentText: {
-        backgroundColor: Utilities.color.light.antiquewhite,
-        color: Utilities.color.black,
-        fontSize: Utilities.font.size.sm,
+        backgroundColor: Tools.color.light.antiquewhite,
+        color: Tools.color.black,
+        fontSize: Tools.font.size.sm,
         paddingVertical: 25,
         paddingHorizontal: 12.5,
         fontWeight: 'bold',
     },
     modalClose: {
-        backgroundColor: Utilities.color.light.grey,
+        backgroundColor: Tools.color.light.grey,
         padding: 10,
         alignItems: 'flex-end',
     },
     modalCloseText: {
-        backgroundColor: Utilities.color.black,
-        color: Utilities.color.light.antiquewhite,
+        backgroundColor: Tools.color.black,
+        color: Tools.color.light.antiquewhite,
         paddingVertical: 5,
         paddingHorizontal: 15,
-        borderRadius: Utilities.border.sm,
+        borderRadius: Tools.border.size.sm,
         textTransform: 'uppercase',
     },
 });

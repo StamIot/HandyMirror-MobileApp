@@ -3,12 +3,19 @@ import React from 'react';
 import { SafeAreaView, StyleSheet, TextInput } from 'react-native';
 
 // Utilitaires
-import * as Utilities from '../src/utilities/utilities';
+import Tools from '../utilities/Tools'; // charge index.js
 
 const MyInputText = ({ placeholder, value, onChangeText, name }) => {
     return (
         <SafeAreaView>
-            <TextInput style={styles.input} onChangeText={onChangeText} value={value} name={name} placeholder={placeholder} placeholderTextColor={Utilities.color.light.grey} />
+            <TextInput
+                style={styles.input}
+                onChangeText={onChangeText}
+                value={value}
+                name={name}
+                placeholder={placeholder}
+                placeholderTextColor={Tools.color.light.grey}
+            />
         </SafeAreaView>
     );
 };
@@ -16,8 +23,8 @@ const MyInputText = ({ placeholder, value, onChangeText, name }) => {
 // Styles
 const styles = StyleSheet.create({
     input: {
-        backgroundColor: Utilities.color.light.antiquewhite,
-        color: Utilities.color.black,
+        backgroundColor: Tools.color.light.antiquewhite,
+        color: Tools.color.black,
         height: 50,
         width: '100%',
         borderRadius: 5,
