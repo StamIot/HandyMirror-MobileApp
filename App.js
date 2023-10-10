@@ -36,6 +36,7 @@ import DetectePhotoFaceScreen from './screens/DetectePhotoFaceScreen';
 import DetectePhotoLeftProfileScreen from './screens/DetectePhotoLeftProfileScreen';
 import DetectePhotoRightProfileScreen from './screens/DetectePhotoRightProfileScreen';
 import DetectePhotoStatusScreen from './screens/DetectePhotoStatusScreen';
+import DeleteAccountScreen from './screens/DeleteAccountScreen';
 
 function OpeningScreen({ navigation }) {
     return (
@@ -120,6 +121,10 @@ export default function App() {
                 <Stack.Screen
                     name="DetectePhotoStatusScreen"
                     component={DetectePhotoStatusScreen}
+                />
+                <Stack.Screen
+                    name="DeleteAccountScreen"
+                    component={DeleteAccountScreen}
                 />
             </Stack.Navigator>
         </NavigationContainer>

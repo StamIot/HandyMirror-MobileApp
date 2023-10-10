@@ -196,6 +196,24 @@ const SettingsScreen = () => {
                             <Text>RGPD</Text>
                         </View>
                     </Pressable>
+
+                    <Pressable
+                        onPress={() =>
+                            navigation.navigate('DeleteAccountScreen')
+                        }
+                    >
+                        <View style={styles.item}>
+                            <AntDesign
+                                name="close"
+                                size={24}
+                                color={Tools.color.light.red}
+                                style={styles.itemIcon}
+                            />
+                            <Text style={{ color: Tools.color.light.red }}>
+                                Supprimer son compte définitivement
+                            </Text>
+                        </View>
+                    </Pressable>
                 </View>
             </View>
 
@@ -289,7 +307,7 @@ const styles = StyleSheet.create({
         height: 125,
     },
     containerThreeElements: {
-        height: 175,
+        height: 200,
     },
     item: {
         display: 'flex',
